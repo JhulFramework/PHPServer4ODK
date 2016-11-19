@@ -1,0 +1,26 @@
+
+.confirm_box form
+{
+	display: block;
+	width: 100%;
+	max-width: 400px;
+	margin: auto;
+}
+
+.confirm_box button
+{
+	padding: 6px 0;
+	width: 100px;	border: none;
+}
+
+button.y
+{
+	background:#e24;
+	color: #fff;
+}
+
+button.n
+{
+	background:#42e;
+	color: #fff;
+}

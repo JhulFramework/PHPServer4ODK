@@ -1,0 +1,22 @@
+<?php return
+[
+	'sanskrit'		=> 'san',
+	'hindi12'		=> 'h12',
+	'hindi'		=> 'hin',
+	'english'		=> 'eng',
+	'hinglish'		=> 'hen',
+	'arabic'		=> 'ara',
+	'bengali'		=> 'ben',
+	'mandarin'		=> 'cmn',
+	'french'		=> 'fra',
+	'german'		=> 'deu',
+	'japanese'		=> 'jpn',
+	'javanese'		=> 'jav',
+	'korean'		=> 'kor',
+	'punjabi'		=> 'pan',
+	'portuguese'	=> 'por',
+	'russian' 		=> 'rus',
+	'spanish' 		=> 'spa',
+	'vietnamese'	=> 'vie',
+	'urdu'		=> 'urd',
+];

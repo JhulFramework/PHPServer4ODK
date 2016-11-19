@@ -1,0 +1,1 @@
+We define handler method map on different file and not in classes itself, so taht we dont have to load handler class when registering handling map  

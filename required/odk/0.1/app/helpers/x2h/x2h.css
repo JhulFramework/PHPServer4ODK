@@ -1,0 +1,40 @@
+
+
+.x2h
+{
+
+	color:#888;
+	text-align: center;
+}
+
+
+.x2h span
+{
+	float: left;
+	min-width: 1px;
+	min-height: 1px;
+	padding: 3px 6px;
+	height: 100%;
+	background: #121212;
+	color: #aaa;
+	display: inline-block;
+
+
+}
+
+.x2h div
+{
+	min-height: 32px;
+	min-width: 1px;
+	display:block;
+}
+
+.border_bottom
+{
+	border-bottom: 1px solid #888;
+}
+
+.border_right
+{
+	border-right: 1px solid #888;
+}

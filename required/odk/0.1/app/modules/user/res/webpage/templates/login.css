@@ -1,0 +1,43 @@
+.from
+{
+	display: block;
+	text-align: center;
+}
+
+.form form
+{
+	margin: auto;
+	display: block;
+	max-width: 360px;
+}
+
+.form label
+{
+	display:block;
+	text-align: left;
+}
+
+.form input[type=text], .form input[type=password]
+{
+	display: block;
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 2px;
+	text-align: left;
+	border: none;
+	background: inherit;
+	border-bottom: 1px solid #060606;
+	color:#cde;
+}
+
+.form button
+{
+	display: block;
+	width: 100%;
+	padding: 8px 0;
+}
+
+.form .field
+{
+	padding: 12px 0;
+}

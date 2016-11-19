@@ -1,0 +1,28 @@
+{
+	"name": "mwapp/exception",
+	"description": "PHP Exception Handler",
+	"keywords": ["standalone", "exception", "handler"],
+	
+	"type": "library",
+	"license": "BSD-3-Clause",
+	"authors": [
+		{
+			"name": "Manish Dhruw",
+			"email": "1D3N717Y12@gmail.com",
+			"role": "developer"
+		}
+		
+	],
+	
+	"require": {
+		"php": ">=5.3"
+
+	},
+
+
+	"autoload": {
+		"psr-0": {"mwapp\\components\\exception": ""}
+	},
+
+	"target-dir": "/mwapp/components/exception"
+}

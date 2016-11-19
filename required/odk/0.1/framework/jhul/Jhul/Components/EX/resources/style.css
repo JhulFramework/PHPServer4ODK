@@ -1,0 +1,59 @@
+
+div, span, body, pre{padding:0; margin:0; max-width:100%; }
+
+body{
+
+
+color:#000;
+font-size:14px;
+
+
+background:#211F1F;
+}
+
+body, div, pre{
+word-wrap:break-word;
+}
+
+.file-name{
+
+
+
+color:#00B864;
+
+font-weight:bold;
+
+padding: 6px;
+
+}
+
+
+pre{ max-height:30px;}
+
+
+.file{
+	width:100%;
+	
+	color:#EF6100;
+	margin: 12px 0;
+}
+
+.error .line, .error .main{ min-height:20px; line-height:20px; padding:4px 6px ; display:block; background:rgba(0,30, 52 ,0.6);
+}
+.error .main{background:#121212;}
+
+.error .message{
+background:rgba(24,24,24,0.6);
+font-size:18px;
+color:#F84E49;
+padding:12px;
+background:#2a2a2a;
+}
+
+.error .title{
+background:#7C4240;
+width:100%;
+display:block;
+padding:6px;
+font-size:16px;
+}
