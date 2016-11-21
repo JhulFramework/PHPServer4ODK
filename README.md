@@ -1,5 +1,6 @@
-## PHPServer4ODK
+## PHPServer4ODK (Beta)
 Php server for ODK Collect
+- Its under developemnet but tetable
 
 ###Requirement
 
@@ -17,3 +18,11 @@ Componenet configuartion is located in directories
  - required/odk/server/0.1/components
  - required/odk/0.1/app/config/components
 Change them as your application requirement
+
+#Usage
+
+- Admin Login
+	user: odkadmin
+	pass: odkadmin
+
+Use empty/any credentials on odk collect

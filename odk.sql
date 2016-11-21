@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 21, 2016 at 01:20 PM
+-- Generation Time: Nov 21, 2016 at 02:53 PM
 -- Server version: 10.0.27-MariaDB
 -- PHP Version: 5.5.14
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `submitted_forms` (
   `month` int(2) NOT NULL,
   `day` int(2) NOT NULL,
   `created` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,14 @@ CREATE TABLE IF NOT EXISTS `users` (
   `access` varchar(12) NOT NULL,
   `iname` varchar(15) NOT NULL,
   `password` varchar(99) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`ik`, `access`, `iname`, `password`) VALUES
+(1, 'DUF', 'odkadmin', 'Rk1MdWdzMjNlYzBlNmU3YTg4Y2ZlMzZiMjFkN2EzZDA3ZTUxNWExZmIxMTEyMTljMmU3Nzk2YTZlODE1YTk1NTNhZTcwOQ==');
 
 -- --------------------------------------------------------
 
@@ -69,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `xforms` (
   `ik` int(11) NOT NULL,
   `name` varchar(99) NOT NULL,
   `r_url` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -107,17 +114,17 @@ ALTER TABLE `xforms`
 -- AUTO_INCREMENT for table `submitted_forms`
 --
 ALTER TABLE `submitted_forms`
-  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `xforms`
 --
 ALTER TABLE `xforms`
-  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
