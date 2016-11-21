@@ -8,13 +8,13 @@ Php server for ODK Collect
 - MYSQL Database
 - Uploadable directory for uploading xforms
 
-### INSTALLATION
+### Basic Configuration
 - use odk.sql to setup database
 - set url of your website in 'required/odk/server/0.1/components/app/\_params.php' ['url' => 'yourwebsite url' ]
 - configure database by editing 'required/odk/server/0.1/components/database/\_params.php'
 - make sure directory 'public_html/uploads/xforms' is writablle for uploading forms
 
-### Components Configuration
+### All Configurations
 Component configuartion is located in directories
 
  - required/odk/server/0.1/components
