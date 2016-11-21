@@ -22,7 +22,7 @@ Change them as your application requirement
 #Usage
 
 - Admin Login
-	user: odkadmin
-	pass: odkadmin
+	- user: odkadmin
+	- pass: odkadmin
 
-Use empty/any credentials on odk collect
+- Use empty/any credentials on odk collect
