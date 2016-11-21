@@ -15,10 +15,13 @@ Php server for ODK Collect
 - make sure directory 'public_html/uploads/xforms' is writablle for uploading forms
 
 ### Components Configuration
-Componenet configuartion is located in directories
+Component configuartion is located in directories
+
  - required/odk/server/0.1/components
- - required/odk/0.1/app/config/components
+ - required/odk/0.1/app/config/components  
+
 Change them as your application requirement
+
 
 ###Usage
 
