@@ -4,15 +4,15 @@
 	[
 		'default' =>
 		[
-			'adapter'	=> 'mysql',
+			'adapter'	=> 'mysql', //Dont change it
 
 			'host'	=> 'localhost',
 
-			'name' 	=> 'odk',
+			'name' 	=> 'Your Database Name',
 
-			'username'	=> 'root',
+			'username'	=> 'database user name',
 
-			'password'	=> 'sqlMy',
+			'password'	=> 'database password',
 
 			'pdoConf' 	=>
 			[
