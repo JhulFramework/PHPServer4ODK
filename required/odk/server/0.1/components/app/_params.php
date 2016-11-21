@@ -3,7 +3,7 @@
 
 	//'base_url'		=> 'odk',
 
-	'url'			=> 'http://www.leafpad.in.beta/odkgit/public_html',
+	'url'			=> 'http://www.mywebsite.com',
 
 	'url_map'		=> __DIR__.'/_urlmap.php',
 
