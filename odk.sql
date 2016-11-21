@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 19, 2016 at 09:59 AM
+-- Generation Time: Nov 21, 2016 at 01:20 PM
 -- Server version: 10.0.27-MariaDB
 -- PHP Version: 5.5.14
 
@@ -33,15 +33,7 @@ CREATE TABLE IF NOT EXISTS `submitted_forms` (
   `month` int(2) NOT NULL,
   `day` int(2) NOT NULL,
   `created` varchar(30) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `submitted_forms`
---
-
-INSERT INTO `submitted_forms` (`ik`, `name`, `year`, `month`, `day`, `created`) VALUES
-(4, 'Birds', '2016', 11, 11, '1478833387'),
-(5, 'Birds', '2016', 11, 11, '1478836289');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -54,14 +46,6 @@ CREATE TABLE IF NOT EXISTS `submitted_forms_data` (
   `content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `submitted_forms_data`
---
-
-INSERT INTO `submitted_forms_data` (`ik`, `content`) VALUES
-(4, 'a:6:{s:4:"name";s:6:"Pecock";s:11:"nationality";s:5:"Inidi";s:4:"temp";s:2:"56";s:8:"humidity";s:4:"high";s:4:"wind";s:4:"high";s:18:"repeat_observation";a:6:{s:7:"habitat";a:0:{}s:7:"observe";a:0:{}s:4:"bird";s:5:"eagle";s:8:"location";a:0:{}s:5:"image";a:0:{}s:5:"notes";a:0:{}}}'),
-(5, 'a:6:{s:4:"name";s:6:"Fgfgfd";s:11:"nationality";s:5:"Fdgfd";s:4:"temp";a:0:{}s:8:"humidity";a:0:{}s:4:"wind";a:0:{}s:18:"repeat_observation";a:6:{s:7:"habitat";a:0:{}s:7:"observe";a:0:{}s:4:"bird";a:0:{}s:8:"location";a:0:{}s:5:"image";a:0:{}s:5:"notes";a:0:{}}}');
-
 -- --------------------------------------------------------
 
 --
@@ -73,14 +57,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `access` varchar(12) NOT NULL,
   `iname` varchar(15) NOT NULL,
   `password` varchar(99) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`ik`, `access`, `iname`, `password`) VALUES
-(1, 'DUF', 'odkadmin', 'Rk1MdWdzMjNlYzBlNmU3YTg4Y2ZlMzZiMjFkN2EzZDA3ZTUxNWExZmIxMTEyMTljMmU3Nzk2YTZlODE1YTk1NTNhZTcwOQ==');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -92,15 +69,7 @@ CREATE TABLE IF NOT EXISTS `xforms` (
   `ik` int(11) NOT NULL,
   `name` varchar(99) NOT NULL,
   `r_url` varchar(200) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `xforms`
---
-
-INSERT INTO `xforms` (`ik`, `name`, `r_url`) VALUES
-(7, 'Birds', 'uploads/xforms/Birds.xml'),
-(13, 'Sample', 'uploads/xforms/Sample.xml');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -138,17 +107,17 @@ ALTER TABLE `xforms`
 -- AUTO_INCREMENT for table `submitted_forms`
 --
 ALTER TABLE `submitted_forms`
-  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `xforms`
 --
 ALTER TABLE `xforms`
-  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
+  MODIFY `ik` int(11) NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
