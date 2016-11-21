@@ -6,7 +6,7 @@ define( 'JHUL_IF_ENABLE_DEBUG', TRUE );
 define( 'JHUL_APPLICATION_PUBLIC_ROOT', __DIR__ );
 
 
-require_once( dirname(dirname(__DIR__)).'/required/appmaker.php' );
+require_once( dirname(__DIR__).'/required/appmaker.php' );
 
 makeApp( 'odk', '0.1' );
 
