@@ -3,7 +3,7 @@
 
 	//'base_url'		=> 'odk',
 
-	'url'			=> 'http://www.mywebsite.com',
+	'url'			=> '',
 
 	'url_map'		=> __DIR__.'/_urlmap.php',
 

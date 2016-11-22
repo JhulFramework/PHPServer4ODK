@@ -16,8 +16,6 @@
 
 		$http->_s( 'R', new \Jhul\Components\JHTTP\Response );
 
-		$http->q()->setBaseURL( $http->config('base_url', FALSE) );
-
 		return $http;
 	},
 ];
