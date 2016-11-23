@@ -1,7 +1,7 @@
 ## PHPServer4ODK (Beta)
 PHP Server for ODK Collect
 - Its under developemnet but runnable
-
+- test server http://www.leafpad.in/odk/
 ###Requirement
 
 - PHP Version >= 5.5

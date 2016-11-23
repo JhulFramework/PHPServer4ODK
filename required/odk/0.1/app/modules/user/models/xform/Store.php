@@ -19,7 +19,12 @@ class Store extends \Jhul\Components\Database\Store\_Class
 	public function deleteForm( $item )
 	{
 		$file = $this->getApp()->publicRoot().'/'.$item->rurl();
-		@unlink( $file );
+
+		if( is_file($file) )
+		{
+			@unlink( $file );
+		}
+
 		$item->delete();
 	}
 }

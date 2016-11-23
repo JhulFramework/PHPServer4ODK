@@ -1,17 +1,22 @@
-<div class="header" ><div class="logo"><a href="<?= $this->getApp()->url() ?>" ><?= $this->getApp()->name() ?></a></div>
 
-<?php if( $this->getApp()->endUser()->isLoggedIn() ): ?>
-<div class="link"><a href="<?= $this->getApp()->url() ?>/logout">Logout</a></div>
-<?php else : ?>
-<div class="link"><a href="<?= $this->getApp()->url() ?>/login">Login</a></div>
-<?php endif; ?>
-</div>
+<ul id="slide-out" class="side-nav">
+	<li> <a href="#" class="button-close"><i class="material-icons">play_arrow</i>Close</a></li>
+	<li><a href="sass.html"><i class="material-icons">cloud</i> Data</a></li>
+	<?php if( $this->getApp()->endUser()->isLoggedIn() ): ?>
+	<li><a href="<?= $this->getApp()->url() ?>/manage_users"><i class="material-icons">supervisor_account</i>Manage Users</a></li>
+	 <li><a href="<?= $this->getApp()->url() ?>/manage_forms"><i class="material-icons">assignment</i>Manage XForms</a></li>
+	 <li><a href="<?= $this->getApp()->url() ?>/logout" ><i class="material-icons">power_settings_new</i>Logout</a></li>
+	 <?php endif; ?>
+</ul>
 
-<?php if( $this->getApp()->endUser()->isLoggedIn() ): ?>
-<div class="pure-g">
-	<div class="pure-u-1 pure-u-md-1-3">Data</div>
-	<div class="pure-u-1 pure-u-md-1-3"><a href="<?= $this->getApp()->url() ?>/manage_forms"><span class="link">Manage Forms</span></a></div>
-	<div class="pure-u-1 pure-u-md-1-3">Manage User</div>
-</div>
-
-<?php endif; ?>
+ <nav >
+     <div class="nav-wrapper">
+       <a href="<?= $this->getApp()->url(); ?>" class="brand-logo" style="font-size:24px;"><?= $this->getApp()->name() ?></a>
+       <ul class="right">
+		<?php if( !$this->getApp()->endUser()->isLoggedIn() ): ?>
+			 <li><a href="<?= $this->getApp()->url() ?>/login" >LOGIN</a></li>
+		<?php endif; ?>
+         <li> <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a></li>
+       </ul>
+     </div>
+ </nav>

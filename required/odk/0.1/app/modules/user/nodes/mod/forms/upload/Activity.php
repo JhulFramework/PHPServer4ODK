@@ -29,16 +29,16 @@ class Activity extends \Jhul\Core\Application\Node\Activity\_Class
 
 			if( !$form->hasError('xform_name')  )
 			{
+				move_uploaded_file( $_FILES[ $form->name() ]['tmp_name']['xform_body'], $this->getApp()->publicRoot().'/'.$r_form_path );
 				\_modules\user\models\xform\M::I()->store()->make
 				    ([ 'name' => $form->xform_name, 'r_url' => $r_form_path ] );
-
-				    move_uploaded_file( $_FILES[ $form->name() ]['tmp_name']['xform_body'], $this->getApp()->publicRoot().'/'.$r_form_path );
 
 				    $this->getApp()->redirect( $this->getApp()->url().'/manage_forms' );
 			}
 
 
 		}
+
 		$this->cook( 'xform_upload', [ 'form'=> $form ] );
 	}
 }
