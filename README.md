@@ -1,7 +1,8 @@
-## PHPServer4ODK (Beta)
-PHP Server for ODK Collect
-- Its under developemnet but runnable
+## PHP ODK Aggregate Server (Beta)
+ODK aggregate server written in PHP.  Still under development, Using it in serious project is not recomended.
+- Usable by ODK collect
 - test server http://www.leafpad.in/odk/
+
 ###Requirement
 
 - PHP Version >= 5.5
