@@ -1,3 +1,28 @@
+
+.list_head
+{
+	display:block;
+	min-height:10px;
+}
+
+.list_head a
+{
+	height: 45px;
+	line-height: 45px;
+	background: #333;
+	padding : 0 12px;
+
+	background:#ccc;
+	color:#111;
+}
+
+.list_head .title
+{
+	height: 45px;
+	line-height: 45px;
+	padding : 0 12px;
+}
+
 .list td  {padding:6px 12px;}
 .list tr {border-bottom: 1px solid #444;}
 

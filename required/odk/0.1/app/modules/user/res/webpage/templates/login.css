@@ -9,12 +9,17 @@
 	margin: auto;
 	display: block;
 	max-width: 360px;
+	padding: 12px 0;
 }
 
 .form label
 {
 	display:block;
 	text-align: left;
+	font-size: 12px;
+	letter-spacing: 1px;
+	color: #888;
+	font-weight: bold;
 }
 
 .form input[type=text], .form input[type=password]
@@ -26,18 +31,33 @@
 	text-align: left;
 	border: none;
 	background: inherit;
-	border-bottom: 1px solid #060606;
+	border-bottom: 1px dashed #555;
 	color:#cde;
 }
 
 .form button
 {
 	display: block;
+	border: none;
 	width: 100%;
 	padding: 8px 0;
+	font-weight: bold;
+	letter-spacing: 1px;
+
+}
+
+.form .title
+{
+	display: block;
+	padding: 12px 0;
+	border-bottom: 1px dashed  #333;
 }
 
 .form .field
 {
 	padding: 12px 0;
+}
+
+i{
+	padding-right: 12px;
 }

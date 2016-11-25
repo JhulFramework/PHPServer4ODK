@@ -34,7 +34,8 @@ class Content  extends \Jhul\Components\Database\Store\Data\_Class
 	{
 		if( empty( $this->_asXML ) )
 		{
-			$this->_asXML = $this->J()->cx('x2h')->arrayToXML( '<nm id="'.$this->name().'" ></nm>', $this->asArray() );
+			$this->getApp()->m('user');
+			$this->_asXML = $this->getApp()->mDataType('xml')->arrayToXML( '<nm id="'.$this->name().'" ></nm>', $this->asArray() );
 		}
 
 		return $this->_asXML;
@@ -53,6 +54,53 @@ class Content  extends \Jhul\Components\Database\Store\Data\_Class
 	public function queryParams()
 	{
 		return [ 'select' => '*' ];
+	}
+
+
+	protected function putCSV($input, $delimiter = ',', $enclosure = '"')
+	{
+		// Open a memory "file" for read/write...
+		$fp = fopen('php://temp', 'r+');
+		// ... write the $input array to the "file" using fputcsv()...
+		fputcsv($fp, $input, $delimiter, $enclosure);
+		// ... rewind the "file" so we can read what we just wrote...
+		rewind($fp);
+		// ... read the entire line into a variable...
+		$data = fread($fp, 1048576);
+		// ... close the "file"...
+		fclose($fp);
+		// ... and return the $data to the caller, with the trailing newline from fgets() removed.
+		return rtrim($data, "\n");
+	}
+
+	public function asCSV()
+	{
+		return $this->_asCSV( $this->asArray() );
+	}
+
+	public function _asCSV( $array )
+	{
+		$csvString = '';
+
+		foreach ( $array as $field )
+		{
+			if( is_array( $field) )
+			{
+				$csvString .= $this->putCSV( $this->_asCSV($array) );
+			}
+			else
+			{
+
+				$csvString .= $this->putCSV($fp, $field);
+			}
+		}
+
+		return $csvString;
+	}
+
+	public function asJSON()
+	{
+		return json_encode( $this->asArray() );
 	}
 
 }

@@ -7,4 +7,6 @@
 	'xform_upload'			=> __DIR__.'/templates/xforms/upload',
 
 	'xform_confirm_deletion'	=> __DIR__.'/templates/xforms/confirm_deletion',
+
+	'change_password'			=> __DIR__.'/templates/user/change_password',
 ];

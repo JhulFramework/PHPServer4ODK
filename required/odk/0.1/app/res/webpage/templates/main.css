@@ -3,6 +3,20 @@ body
 	background:#242424;
 	color:#aaa;
 	font-size: 14px;
+	height: 100%;
+	min-width: 100%;
+	display: block;
+}
+
+html{
+	height: 100%;
+}
+
+ul
+{
+	padding: 0;
+	margin : 0;
+	list-style: none;
 }
 
 a
@@ -11,42 +25,13 @@ a
 	color:#ee4;
 }
 
+a:hover{
+    text-decoration: none;
+}
+
 .clear
 {
 	clear: both;
-}
-
-.header
-{
-	display: block;
-	min-height: 20px;
-}
-
-.header .logo
-{
-	height: 100%;
-	display:inline-block;
-	min-height: 20px;
-	min-width: 20px;
-
-}
-
-.header .link
-{
-	display: inline-block;
-	min-height: 20px;
-	float: right;
-	min-width: 20px;
-}
-
-.header a
-{
-	display: inline-block;
-	padding:
-	background: blue;
-
-	padding: 16px ;
-
 }
 
 .footer
@@ -62,7 +47,7 @@ a
 .IB
 {
 	display: inline-block;
-	height:inherit;
+	height: 100%;
 }
 
 .FR
@@ -73,11 +58,12 @@ a
 .B
 {
 	display: block;
+	min-height: 10px;
 }
 
-.P8
+.FL
 {
-		padding:8px;
+	float: left;
 }
 
 .bb

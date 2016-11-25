@@ -64,6 +64,7 @@ class Style
 
 	public function publicCssURL( $name )
 	{
+
 		if( !isset( $this->publicCSS[$name] ) )
 		{
 			throw new \Exception('Public CSS '.$name.' not Mapped ', 1);
@@ -72,8 +73,14 @@ class Style
 		return $this->_link( $this->getApp()->URL().'/'.$this->publicCSS[$name].'.css' );
 	}
 
-	public function link( $name )
+	public function link( $name, $link = NULL )
 	{
+		if( !empty($link) )
+		{
+			$this->_linked[$name] = $this->_link( $link );
+			return ;
+		}
+
 		if( !isset( $this->_linked[$name] ) )
 		{
 			$this->_linked[$name] = $this->publicCssURL( $name );

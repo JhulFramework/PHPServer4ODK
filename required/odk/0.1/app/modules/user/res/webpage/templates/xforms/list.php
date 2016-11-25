@@ -1,14 +1,15 @@
+<?= $this->J()->cx('uiloader')->mbreadcrumb(); ?>
+
 <?php $this->embedCss('list') ; ?>
 
-<div class="pure-g bb">
-    <div class="pure-u-1-2"><span class="IB P8">XFORM LIST</span></div>
-    <div class="pure-u-1-2"><a href="<?= $this->getApp()->url() ?>/manage_forms/upload"><span class="IB FR P8"> + UPLOAD XFORM</span></a></div>
-</div>
+<div class="list_head B"> <span class="IB title"> Form List</span>
+<a href="<?= $this->getApp()->url() ?>/manage_forms/upload" class="IB FR button" ><i class=" uk-icon-medium uk-icon-cloud-upload" > </i> UPLOAD </a> </div>
+
 <table class="list">
 <?php
 	if (empty($xForms) )
 	{
-		echo '<h3>No forms Uploaded by Admin yet</h3>' ;
+		echo '<div class="B" style="text-align:center" ><h2 style="color:#999" >NO XFORMS AVAILABLE TO DOWNLOAD </h2><h3 style="color:#999" >please upload some forms first</h3></div>' ;
 	}
 ?>
 

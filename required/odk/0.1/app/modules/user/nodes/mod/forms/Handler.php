@@ -9,6 +9,8 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 
 	public function run()
 	{
+		$this->J()->cx('uiloader')->MBreadCrumb()->add( 'FORMS', $this->getApp()->url().'/manage_forms' );
+
 		if( !$this->getApp()->endUser()->isLoggedIn() ) return ;
 
 		if( $this->isEnd() && $this->getApp()->endUser()->m()->canManageForms() )
@@ -22,6 +24,7 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 
 		if( $this->current() == 'upload' )
 		{
+			$this->J()->cx('uiloader')->MBreadCrumb()->add( 'UPLOAD', $this->getApp()->url().'/manage_forms/upload' );
 			$this->runLocalActivity( 'upload\\Activity' );
 		}
 

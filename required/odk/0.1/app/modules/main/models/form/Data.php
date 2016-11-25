@@ -36,6 +36,11 @@ class Data  extends \Jhul\Components\Database\Store\Data\_Class
 		if( empty( $this->_content ) )
 		{
 			$this->_content = Data\Content::I()->store()->byIk( $this->ik() )->fetch();
+
+			if( !empty($this->_content) )
+			{
+				$this->_content->setName( $this->name() );
+			}
 		}
 
 		return $this->_content;
@@ -45,4 +50,15 @@ class Data  extends \Jhul\Components\Database\Store\Data\_Class
 	{
 		return $this->getApp()->url().'/data/'.$this->ik();
 	}
+
+	public function xmlUrl()
+	{
+		return $this->url().'/?download=xml';
+	}
+
+	public function jsonUrl()
+	{
+		return $this->url().'/?download=json';
+	}
+
 }

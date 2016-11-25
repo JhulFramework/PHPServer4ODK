@@ -29,14 +29,21 @@ class JS
 		$this->publicJS[$name] = $path;
 	}
 
-	public function link( $name )
+	public function link( $name , $file = NULL )
 	{
+
+		if( !empty($file) )
+		{
+			$this->_linked[$name] = $this->_link($file);
+
+			return;
+		}
+
 		if( !isset( $this->_linked[$name] ) )
 		{
+
 			if( !isset( $this->publicJS[$name] ) )
 			{
-
-
 				throw new \Exception('Public JS '.$name.' not Mapped ', 1);
 			}
 

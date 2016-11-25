@@ -11,9 +11,6 @@ class Manager
 
 	protected $_dataTypeMap = [];
 
-	//files containing datatype config
-	protected $_config_files = [];
-
 	public function __construct()
 	{
 		$this->_dataTypeMap =
@@ -32,7 +29,6 @@ class Manager
 		return $this->_dataTypeMap;
 	}
 
-
 	public function register( $name, $class = NULL, $overwrite = FALSE )
 	{
 		//mass
@@ -40,53 +36,28 @@ class Manager
 		{
 			foreach ($name as $n => $c)
 			{
-				$this->register($n, $c, $overwrite );
+				$this->register( $n, $c, $overwrite );
 			}
-
 			return;
 		}
 
-		//singular
-		if( is_array($class) )
+		if( (isset($this->_dataTypeMap[$name]) &&  $class != $this->_dataTypeMap[$name] ) && !$overwrite )
 		{
-			if( isset($class['config']) )
-			{
-				$file = $class['config'].'.php';
-
-				if( !file_exists($file) )
-				{
-					throw new \Exception( 'Data Type "'.$name.'" config file "'.$file.'" Not Found ' , 1);
-				}
-
-				$this->_config_files[$name] = $file;
-			}
-
-			if( isset($class['class']) )
-			{
-				$class = $class['class'];
-			}
+			throw new \Exception( 'Data Type name "'.$name.'" for class "'.$class.'" is already used by "'.$this->_dataTypeMap[$name].'"' , 1);
 		}
 
-
-		if( is_string($class) )
+		if( empty($class) )
 		{
-			if( (isset($this->_dataTypeMap[$name]) &&  $class != $this->_dataTypeMap[$name] ) && !$overwrite )
-			{
-				throw new \Exception( 'Data Type name "'.$name.'" for class "'.$class.'" is already used by "'.$this->_dataTypeMap[$name].'"' , 1);
-			}
-
-			if( empty($class) )
-			{
-				throw new \Exception( 'Data Type "'.$name.'"\'s class must not be empty ' );
-			}
-
-			if( !class_exists($class) )
-			{
-				throw new \Exception( 'Data Type "'.$name.'" class "'.$class.'" does not exists' );
-			}
-
-			$this->_dataTypeMap[ $name ] = $class;
+			throw new \Exception( 'Data Type "'.$name.'"\'s class must not be empty ' );
 		}
+
+		if( !class_exists($class) )
+		{
+			throw new \Exception( 'Data Type "'.$name.'" class "'.$class.'" does not exists' );
+		}
+
+		$this->_dataTypeMap[ $name ] = $class;
+
 	}
 
 	public function get( $name, $newDefinition = NULL )
@@ -106,12 +77,11 @@ class Manager
 
 			$dataType = new $class;
 
-			if( isset($this->_config_files[$name]) )
-			{
-				$config = $this->J()->fx()->loadConfigFile( $this->_config_files[$name] );
+			$path = $this->J()->fx()->dirPath( $class );
 
-				$dataType->config()->add($config, NULL, TRUE);
-			}
+			$config = $this->J()->fx()->loadConfigFile( $path.'/_params', FALSE );
+
+			$dataType->config()->add( $config, NULL, TRUE);
 
 			if( !empty($newDefinition) )
 			{

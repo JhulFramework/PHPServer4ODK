@@ -180,9 +180,11 @@ class WebPage
 
 		$params =
 		[
-			'body'		=> $this->mTemplate()->load( 'body', [ 'content' => $this->content()->g('content') ]  ).$this->mJS() ,
+			'body'		=> $this->mTemplate()->load( 'body', [ 'content' => $this->content()->g('content') ]  ) ,
 
 			'head' 		=> $this->makeHead(),
+
+			'js'			=> $this->mJS(),
 		];
 
 		return $this->e('V')->load( 'layout', $params );

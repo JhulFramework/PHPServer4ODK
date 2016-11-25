@@ -9,4 +9,5 @@
 	'classmapper'	=> '\\Jhul\\Components\\ClassMapper\\ClassMapper',
 	'router'		=> '\\Jhul\\Components\\Router\\Router',
 	'database'		=> '\\Jhul\\Components\\Database\\Database',
+	'uiloader'		=> '\\app\\helpers\\uiloader\\UILoader',
 ];

@@ -9,30 +9,22 @@
 
 		<link rel="shortcut icon" href="<?= $this->getApp()->url() ?>/resources/icons/favicon.ico">
 
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-			<link rel="stylesheet" href="<?= $this->getApp()->url().'/resources/fontello/css/embed.css'  ?>">
-			 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+		<link rel="stylesheet" href="<?= $this->getApp()->url().'/resources/uikit/css/flat.css' ;?>" />
+		<!-- <link rel="stylesheet" href=" $this->getApp()->url().'/resources/fontello/embed.css' ;?>" /> -->
+
 
 		<?= $head ;?>
 
 	</head>
 
-	<body> <?= $body ; ?>
+	<body>
+		<?= $body ; ?>
 		<!-- Compiled and minified JavaScript -->
 		<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-		 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-		 <script type="text/javascript" >
-		 $('.button-collapse').sideNav({
-menuWidth: 240, // Default is 240
-edge: 'right', // Choose the horizontal origin
-closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
-draggable: true // Choose whether you can drag to open on touch screens
-}
-);
+		<script src="<?= $this->getApp()->url() ; ?>/resources/uikit/js/uikit.min.js"></script>
 
-	  $('.button-close').sideNav('hide');
-	 </script>
+		<?= $js ; ?>
 	</body>
 </html>

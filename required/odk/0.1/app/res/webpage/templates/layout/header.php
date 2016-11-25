@@ -1,22 +1,28 @@
+<?php $this->embedCss('header'); ?>
 
-<ul id="slide-out" class="side-nav">
-	<li> <a href="#" class="button-close"><i class="material-icons">play_arrow</i>Close</a></li>
-	<li><a href="sass.html"><i class="material-icons">cloud</i> Data</a></li>
-	<?php if( $this->getApp()->endUser()->isLoggedIn() ): ?>
-	<li><a href="<?= $this->getApp()->url() ?>/manage_users"><i class="material-icons">supervisor_account</i>Manage Users</a></li>
-	 <li><a href="<?= $this->getApp()->url() ?>/manage_forms"><i class="material-icons">assignment</i>Manage XForms</a></li>
-	 <li><a href="<?= $this->getApp()->url() ?>/logout" ><i class="material-icons">power_settings_new</i>Logout</a></li>
-	 <?php endif; ?>
-</ul>
 
- <nav >
-     <div class="nav-wrapper">
-       <a href="<?= $this->getApp()->url(); ?>" class="brand-logo" style="font-size:24px;"><?= $this->getApp()->name() ?></a>
-       <ul class="right">
-		<?php if( !$this->getApp()->endUser()->isLoggedIn() ): ?>
-			 <li><a href="<?= $this->getApp()->url() ?>/login" >LOGIN</a></li>
-		<?php endif; ?>
-         <li> <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons">menu</i></a></li>
-       </ul>
-     </div>
- </nav>
+<div class="header B" >
+	<a class="IB name"  href="<?= $this->getApp()->url() ?>" ><?= $this->getApp()->name() ?></a>
+	<a class="FR" href="#side-nav" data-uk-offcanvas="{mode:'slide'}"> <i class="uk-icon-chevron-left" ></i> </a>
+</div>
+
+<!-- This is the off-canvas sidebar -->
+<div id="side-nav" class="uk-offcanvas">
+	<div class="uk-offcanvas-bar uk-offcanvas-bar-flip" style="background:#555; ">
+		<ul class="menu" >
+			<li class="bottomBorder"><a href="#side-nav" > <i class="uk-icon-chevron-right" ></i>CLOSE</a></li>
+
+			<?php if( $this->getApp()->endUser()->isLoggedIn() ): ?>
+
+			<li class="bottomBorder" ><a href="<?= $this->getApp()->url() ?>/manage_users"><i class="uk-icon-user" ></i>USERS</a></li>
+			<li class="bottomBorder" ><a href="<?= $this->getApp()->url() ?>/manage_forms"><i class="uk-icon-wpforms" ></i>FORMS</a></li>
+			<li class="bottomBorder" ><a href="<?= $this->getApp()->url() ?>/logout"><i class="uk-icon-power-off" ></i>LOGOUT</a></li>
+
+			<?php else :?>
+
+			<li class="bottomBorder" ><a href="<?= $this->getApp()->url() ?>/login"><i class="uk-icon-power-off" ></i>LOGIN</a></li>
+
+			<?php endif; ?>
+		</ul>
+	</div>
+</div>

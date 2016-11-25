@@ -14,10 +14,10 @@
 
 		'logout'					=> 'user:logout',
 
-		'admin'					=> 'main:admin',
-
 		'manage_forms'				=> 'user:manage_forms',
 
 		'xform'					=> 'main:xform',
+
+		'change_password'				=> 'user:change_password',
 	],
 ];
