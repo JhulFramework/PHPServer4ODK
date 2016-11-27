@@ -1,6 +1,6 @@
-<?php namespace _modules\main\models\form\Data;
+<?php namespace _modules\main\models\data\content;
 
-class Content  extends \Jhul\Components\Database\Store\Data\_Class
+class M  extends \Jhul\Components\Database\Store\Data\_Class
 {
 	use \Jhul\Components\Database\Store\Data\_WriteAccessKey;
 

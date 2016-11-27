@@ -195,9 +195,10 @@ abstract class _Class
 
 	public function inflate( $value, $field )
 	{
+
 		if( isset($this->inflators()[$field] )  )
 		{
-			$field = $this->inflators()[$field];
+			$inflator = $this->inflators()[$field];
 
 			return $this->$inflator( $value, $field);
 		}

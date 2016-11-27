@@ -1,6 +1,6 @@
-<?php namespace _modules\main\models\form;
+<?php namespace _modules\main\models\data;
 
-class Data  extends \Jhul\Components\Database\Store\Data\_Class
+class M  extends \Jhul\Components\Database\Store\Data\_Class
 {
 	use \Jhul\Components\Database\Store\Data\_WriteAccessKey;
 
@@ -35,7 +35,7 @@ class Data  extends \Jhul\Components\Database\Store\Data\_Class
 	{
 		if( empty( $this->_content ) )
 		{
-			$this->_content = Data\Content::I()->store()->byIk( $this->ik() )->fetch();
+			$this->_content = content\M::I()->store()->byIk( $this->ik() )->fetch();
 
 			if( !empty($this->_content) )
 			{

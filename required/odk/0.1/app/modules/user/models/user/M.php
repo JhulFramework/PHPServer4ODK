@@ -1,13 +1,10 @@
-<?php namespace _modules\user\models;
+<?php namespace _modules\user\models\user;
 
-class User extends \Jhul\Components\Database\Store\Data\_Class
+class M extends \Jhul\Components\Database\Store\Data\_Class
 {
 	use \Jhul\Components\Database\Store\Data\_WriteAccessKey;
 
-	public function storeClass()
-	{
-		return __NAMESPACE__.'\\UserStore';
-	}
+	public function storeClass() { return __NAMESPACE__.'\\Store'; }
 
 
 	public function queryParams()

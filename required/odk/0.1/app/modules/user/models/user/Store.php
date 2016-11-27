@@ -1,11 +1,11 @@
-<?php namespace _modules\user\models;
+<?php namespace _modules\user\models\user;
 
-class UserStore extends \Jhul\Components\Database\Store\_Class
+class Store extends \Jhul\Components\Database\Store\_Class
 {
 
 	public function dataClasses()
 	{
-		return [ 's' => __NAMESPACE__.'\\User', ];
+		return [ 's' => __NAMESPACE__.'\\M', ];
 	}
 
 	public function itemKeyName() { return 'ik' ; }

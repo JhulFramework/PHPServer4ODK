@@ -1,15 +1,19 @@
 <?php return
 [
-	'index' 			=> '\\_modules\\main\\nodes\\pub\\index\\Handler',
-	'form_list' 		=> '\\_modules\\main\\nodes\\pub\\form\\listing\\Handler',
-	'form_submit'		=> '\\_modules\\main\\nodes\\pub\\form\\submit\\Handler',
 
+	//froent page of website
+	'index' 			=> '\\_modules\\main\\nodes\\index\\Handler',
 
+	//Lists forms to download for odk colect
+	'form_list' 		=> '\\_modules\\main\\nodes\\form\\listing\\Handler',
 
-	'data'			=> '\\_modules\\main\\nodes\\pub\\view_data\\Handler',
+	//handles form submission from odk collect
+	'form_submit'		=> '\\_modules\\main\\nodes\\form\\submit\\Handler',
 
+	//handle form download request from odk collect
+	'form_download' 		=> '\\_modules\\main\\nodes\\form\\download\\Handler',
 
-	'xform' 			=> '\\_modules\\main\\nodes\\pub\\xform\\Handler',
-
+	//Handles user submitted data
+	'data'		=> '\\_modules\\main\\nodes\\data\\Handler',
 
 ];

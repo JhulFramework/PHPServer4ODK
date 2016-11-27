@@ -1,4 +1,4 @@
-<?php namespace _modules\main\nodes\pub\form\submit;
+<?php namespace _modules\main\nodes\form\submit;
 
 class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 {
@@ -14,7 +14,7 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 
 				$form = $x2h->make( $_FILES['xml_submission_file']['tmp_name']  );
 
-				\_modules\main\models\form\Data::I()->store()->add( $form );
+				\_modules\main\models\data\M::I()->store()->add( $form );
 
 				$this->J()->cx('http')->R()->setStatusCode(201);
 			}

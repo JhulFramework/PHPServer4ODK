@@ -1,4 +1,4 @@
-<?php namespace _modules\main\nodes\pub\view_data;
+<?php namespace _modules\main\nodes\data;
 
 class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 {
@@ -12,11 +12,11 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 
 		if( $this->isEnd() )
 		{
-			$this->J()->cx('uiloader')->mbreadcrumb()->add( 'DATA LIST', $this->getApp()->url()  );
+			$this->J()->cx('uiloader')->mbreadcrumb()->add( 'SUBMITTED DATA', $this->getApp()->url()  );
 
-			$data = \_modules\main\models\form\Data::I()->store()->limit(10)->fetchAll();
+			$data = \_modules\main\models\data\M::I()->store()->limit(10)->fetchAll();
 
-			return $this->getApp()->outputAdapter()->cook( 'view_data_list', [ 'data' => $data ] );
+			return $this->getApp()->outputAdapter()->cook( 'data_list', [ 'data' => $data ] );
 		}
 
 		if( NULL != $this->next() )
@@ -24,7 +24,7 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 
 			$this->getApp()->m('user'); //loading xml datatype from user module
 
-			$data = \_modules\main\models\form\Data::I()->store()->byik( $this->next() )->fetch();
+			$data = \_modules\main\models\data\M::I()->store()->byik( $this->next() )->fetch();
 
 			if( empty($data) ) return ;
 

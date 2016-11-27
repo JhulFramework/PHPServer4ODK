@@ -1,4 +1,4 @@
-<?php namespace _modules\main\models\form;
+<?php namespace _modules\main\models\data;
 
 class _Editor extends \Jhul\Components\Database\Store\Data\Editor
 {

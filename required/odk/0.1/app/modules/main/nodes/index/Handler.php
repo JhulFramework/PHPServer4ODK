@@ -1,4 +1,4 @@
-<?php namespace _modules\main\nodes\pub\index;
+<?php namespace _modules\main\nodes\index;
 
 class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 {

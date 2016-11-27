@@ -24,7 +24,7 @@ class M extends \Jhul\Components\Database\Store\Data\_Class
 
 	public function url()
 	{
-		return $this->getApp()->url().'/xform/'.$this->ik();
+		return $this->getApp()->url().'/download/'.$this->ik();
 	}
 
 	public function deletionurl()
@@ -41,4 +41,8 @@ class M extends \Jhul\Components\Database\Store\Data\_Class
 	{
 		return file_get_contents( $this->getApp()->url().'/'.$this->rurl() );
 	}
+
+	//XForm Version
+	public function md5(){ return $this->read('md5') ; }
+
 }

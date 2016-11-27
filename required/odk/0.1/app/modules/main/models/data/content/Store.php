@@ -1,4 +1,4 @@
-<?php namespace _modules\main\models\form\Data;
+<?php namespace _modules\main\models\data\content;
 
 class Store extends \Jhul\Components\Database\Store\_Class
 {
@@ -7,13 +7,13 @@ class Store extends \Jhul\Components\Database\Store\_Class
 	{
 		return
 		[
-			's' => __NAMESPACE__.'\\Content',
+			's' => __NAMESPACE__.'\\M',
 		];
 	}
 
 	public function name()
 	{
-		return 'submitted_forms_data';
+		return 'submitted_data_content';
 	}
 
 	public function itemKeyName(){ return 'ik'; }

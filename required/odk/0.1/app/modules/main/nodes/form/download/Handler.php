@@ -1,4 +1,4 @@
-<?php namespace _modules\main\nodes\pub\xform;
+<?php namespace _modules\main\nodes\form\download;
 
 class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 {

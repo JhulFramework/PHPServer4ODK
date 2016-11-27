@@ -29,9 +29,11 @@ class Activity extends \Jhul\Core\Application\Node\Activity\_Class
 
 			if( !$form->hasError('xform_name')  )
 			{
+				$md5 = md5_file( $_FILES[ $form->name() ]['tmp_name']['xform_body'] );
+
 				move_uploaded_file( $_FILES[ $form->name() ]['tmp_name']['xform_body'], $this->getApp()->publicRoot().'/'.$r_form_path );
 				\_modules\user\models\xform\M::I()->store()->make
-				    ([ 'name' => $form->xform_name, 'r_url' => $r_form_path ] );
+				    ([ 'name' => $form->xform_name, 'r_url' => $r_form_path, 'md5' => $md5 ] );
 
 				    $this->getApp()->redirect( $this->getApp()->url().'/manage_forms' );
 			}

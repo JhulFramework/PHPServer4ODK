@@ -20,12 +20,18 @@
 
 <?php foreach ( $data as $row  ): ?>
 	<tr class="data" >
-		<?php   foreach ($row->persistentData() as $value): ?>
-			<td><span><?= $value ?></span></td>
-			<?php endforeach; ?>
-			<td><a href=" <?= $row->url() ?>">VIEW</a></td>
-			<td><a href=" <?= $row->xmlUrl() ?>"><i class="uk-icon-download" ></i>XML</a></td>
-			<td><a href=" <?= $row->jsonurl() ?>"><i class="uk-icon-download" ></i>JSON</a></td>
+
+	<td><span><?= $row->read('ik') ;		?></span></td>
+	<td><span><?= $row->read('name');		?></span></td>
+	<td><span><?= $row->read('year');		?></span></td>
+	<td><span><?= $row->read('month');		?></span></td>
+	<td><span><?= $row->read('day');		?></span></td>
+	<td><span><?= $row->read('created');	?></span></td>
+
+	<td><a href="<?= $row->url() ?>">VIEW</a></td>
+	<td><a href="<?= $row->xmlUrl() ?>"><i class="uk-icon-download" ></i>XML</a></td>
+	<td><a href="<?= $row->jsonurl() ?>"><i class="uk-icon-download" ></i>JSON</a></td>
+
 	</tr>
 <?php endforeach ; ?>
 

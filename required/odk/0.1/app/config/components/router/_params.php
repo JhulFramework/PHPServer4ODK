@@ -8,7 +8,12 @@
 
 		'formList'					=> 'main:form_list',
 
+		'form_list'					=> 'main:form_list',
+
+		'form_submit'				=> 'main:form_submit',
+
 		'submission'				=> 'main:form_submit',
+
 
 		'login'					=> 'user:login',
 
@@ -16,7 +21,7 @@
 
 		'manage_forms'				=> 'user:manage_forms',
 
-		'xform'					=> 'main:xform',
+		'download'					=> 'main:form_download',
 
 		'change_password'				=> 'user:change_password',
 	],

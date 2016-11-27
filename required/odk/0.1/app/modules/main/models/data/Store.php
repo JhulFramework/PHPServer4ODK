@@ -1,4 +1,4 @@
-<?php namespace _modules\main\models\form;
+<?php namespace _modules\main\models\data;
 
 class Store extends \Jhul\Components\Database\Store\_Class
 {
@@ -7,13 +7,13 @@ class Store extends \Jhul\Components\Database\Store\_Class
 	{
 		return
 		[
-			's' => __NAMESPACE__.'\\Data',
+			's' => __NAMESPACE__.'\\M',
 		];
 	}
 
 	public function name()
 	{
-		return 'submitted_forms';
+		return 'submitted_data';
 	}
 
 	public function itemKeyName(){ return 'ik'; }
@@ -27,7 +27,7 @@ class Store extends \Jhul\Components\Database\Store\_Class
 
 		$entity->commit();
 
-		Data\Content::I()->store()->add
+		content\M::I()->store()->add
 		([
 			'ik'		=> $entity->ik(),
 			'content'	=> $form->__toString(),
@@ -47,5 +47,18 @@ class Store extends \Jhul\Components\Database\Store\_Class
 		$entity->write( 'submitted_on', (int) $time->value() );
 
 		return;
+	}
+
+	public function inflateCreated( $value )
+	{
+		return strtoupper(date( 'Y-M-d : H-i-s', $value ));
+	}
+
+	public function inflators()
+	{
+		return
+		[
+			'created' => 'inflateCreated',
+		];
 	}
 }
