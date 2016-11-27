@@ -3,6 +3,9 @@ ODK aggregate server written in PHP.  Still under development, Using it in serio
 - Usable by ODK collect
 - test server http://www.leafpad.in/odk/
 
+### Note :
+- I am doing it as side project. I dont know if it useful and worth time. So if you think its worth and you are intrested in using it in future, show your support by giving stars, it will motivate me for further and faster development.
+
 ###Requirement
 
 - PHP Version >= 5.5
