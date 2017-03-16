@@ -11,15 +11,16 @@ abstract class _Abstract implements \Jhul\Components\Database\Adapter\MariaDB\St
 	protected $_fetchMode = \PDO::FETCH_ASSOC;
 
 	//YTable Object;
-	protected $_table;
+	protected $_dispenser;
 
-	function bindValue( $name, $value )
+
+	public function bindValue( $name, $value )
 	{
 		$this->_values[ ':'.$name ] = $value ;
 		return $this;
 	}
 
-	function bindValues( $values )
+	public function bindValues( $values )
 	{
 		foreach ($values as $name => $value)
 		{
@@ -29,23 +30,19 @@ abstract class _Abstract implements \Jhul\Components\Database\Adapter\MariaDB\St
 		return $this;
 	}
 
+	public function getDBM()
+	{
+		return \Jhul::I()->cx('dbm');
+	}
+
 	function p( $key  ) { return isset($this->_p[$key]) ? $this->_p[$key] : '' ; }
 
 	function tick( $name ){ return '`'.$name.'`' ; }
 
-	final public function setTable( $table )
+	final public function setTable( $name )
 	{
+		$this->_p['table_name'] = $this->tick($name);
 
-		if( is_object( $table ) )
-		{
-			$this->_table = $table;
-			$this->_p['table_name'] = $this->tick( $this->_table->name() );
-		}
-
-		if( is_string($table) )
-		{
-			$this->_p['table_name'] = $this->tick( $table );
-		}
 		return $this;
 	}
 
@@ -65,6 +62,11 @@ abstract class _Abstract implements \Jhul\Components\Database\Adapter\MariaDB\St
 
 		foreach ( $this->values() as $key => $value )
 		{
+			if( is_array( $value) )
+			{
+				$value = '('.implode('|', $value).')' ;
+			}
+
 			$string .= $key.'='.$value.'|';
 		}
 
@@ -72,27 +74,28 @@ abstract class _Abstract implements \Jhul\Components\Database\Adapter\MariaDB\St
 	}
 
 
-	public function values(){ return $this->_values; }
-
+	final public function values(){ return $this->_values; }
 
 	public function fetch()
 	{
-		if( empty( $this->_table ) )
-		{
-			throw new \Exception("Error Processing Request", 1);
-
-		}
-
-		return $this->table()->fetch( $this );
+		return $this->cookItem( $this->getDBM()->fetch($this), $this->show() );
 	}
 
 	public function fetchAll()
 	{
-		return $this->table()->fetchAll( $this );
+		$record = $this->getDBM()->fetchAll($this) ;
+
+		$items = [];
+
+		foreach ($record as $r)
+		{
+			$items[] = $this->cookItem( $r, $this->show() );
+		}
+		return $items;
 	}
 
 
-	function executeThis( $pdo )
+	public function executeThis( $pdo )
 	{
 		try
 		{

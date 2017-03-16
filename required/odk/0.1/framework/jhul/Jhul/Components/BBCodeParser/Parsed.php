@@ -6,9 +6,11 @@ class Parsed
 
 	public $script = [];
 
+	public $content;
+
 	public function __construct( $content, $CSS, $JS )
 	{
-		$this->_content = $content;
+		$this->content = $content;
 
 		$this->style = $CSS;
 
@@ -18,11 +20,11 @@ class Parsed
 
 	public function value()
 	{
-		return $this->_content;
+		return $this->content;
 	}
 
 	public function __toString()
 	{
-		return $this->value();
+		return $this->content;
 	}
 }

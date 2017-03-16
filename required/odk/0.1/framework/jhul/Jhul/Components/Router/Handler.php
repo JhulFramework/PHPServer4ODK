@@ -7,11 +7,8 @@ class Handler
 
 	public function __construct( $H )
 	{
-		     
-
 		$this->_node	= $H['N'];
 		$this->_module_ik	= $H['M'];
-
 	}
 
 	public function moduleIK()

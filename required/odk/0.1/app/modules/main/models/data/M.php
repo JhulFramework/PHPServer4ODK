@@ -4,9 +4,14 @@ class M  extends \Jhul\Components\Database\Store\Data\_Class
 {
 	use \Jhul\Components\Database\Store\Data\_WriteAccessKey;
 
-	public function editorClass()
+	public function tableName()
 	{
-		return __NAMESPACE__.'\\_Editor';
+		return 'submitted_data';
+	}
+
+	public function keyName()
+	{
+		return 'identity_key';
 	}
 
 	public function storeClass()
@@ -19,14 +24,9 @@ class M  extends \Jhul\Components\Database\Store\Data\_Class
 		return $this->read('name');
 	}
 
-	public function accessMode()
+	public function context()
 	{
-		return 's';
-	}
-
-	public function queryParams()
-	{
-		return [ 'select' => '*' ];
+		return 'write';
 	}
 
 	protected $_content;
@@ -35,7 +35,7 @@ class M  extends \Jhul\Components\Database\Store\Data\_Class
 	{
 		if( empty( $this->_content ) )
 		{
-			$this->_content = content\M::I()->store()->byIk( $this->ik() )->fetch();
+			$this->_content = content\M::D()->byKey( $this->key() )->fetch();
 
 			if( !empty($this->_content) )
 			{
@@ -48,7 +48,7 @@ class M  extends \Jhul\Components\Database\Store\Data\_Class
 
 	public function url()
 	{
-		return $this->getApp()->url().'/data/'.$this->ik();
+		return $this->getApp()->url().'/data/'.$this->key();
 	}
 
 	public function xmlUrl()

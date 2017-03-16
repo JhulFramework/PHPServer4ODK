@@ -129,6 +129,11 @@ class FX
 
 	public function getFromNamespace( $child, $namespace )
 	{
+		if( empty($child) )
+		{
+			return $this->rchop($namespace) ;
+		}
+
 		return $this->rchop($namespace).'\\'.$child ;
 	}
 

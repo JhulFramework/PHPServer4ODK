@@ -22,7 +22,7 @@ class HTML
 		return '<a href="'.$this->encode($url).'">'.$name.'</a>';
 	}
 
-	public function makeOptions( $map,  $selected = NULL )
+	public function selectOptions( $map,  $selected = NULL )
 	{
 		$options = '';
 
@@ -30,7 +30,7 @@ class HTML
 		{
 			$name = $this->getApp()->lipi()->t($name);
 
-			if( $selected == $code )
+			if( $selected == $code || $selected == $name )
 			{
 				$options .= '<option value="'.$code.'" selected>'.$name.'</option>' ;
 			}
@@ -41,6 +41,18 @@ class HTML
 		}
 
 		return $options;
+	}
+
+	public function arrayToCheckBox( $options, $name )
+	{
+		$html = '';
+
+		foreach ( $options as $label => $value)
+		{
+			$html .= '<input type="checkbox" name="'.$name.'[]" value="'.$value.'" >'.$label.'<br/>';
+		}
+
+		return $html;
 	}
 
 	public function encode64( $image )
@@ -56,5 +68,16 @@ class HTML
 	public function HB( $size = 1 , $unit = 'px' )
 	{
 		return new Tab\Tab( $size, $unit );
+	}
+
+	//insert anti csrf field in the form
+	public function tokenField( $form )
+	{
+		return '<input type = "hidden" name="'.$form->name( $form->tokeName() ).'" value ="'.$form->token()->value().'" />';
+	}
+
+	public function showError( $error )
+	{
+		if( !empty($error) ) return '<div class="form_error" >'.$error.'</div>';
 	}
 }

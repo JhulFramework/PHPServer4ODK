@@ -2,19 +2,18 @@
 
 class Store extends \Jhul\Components\Database\Store\_Class
 {
-	public function dataClasses()
+	public function items()
 	{
-		return [ 's' => __NAMESPACE__.'\\M', ];
+		return
+		[
+			'write' =>
+			[
+				'class' => __NAMESPACE__.'\\M',
+				'select' => '*',
+			],
+		];
 	}
 
-	public function itemKeyName(){ return 'ik'; }
-
-	public function name(){ return 'xforms'; }
-
-	public function byName( $name )
-	{
-		return $this->where( 'name', $name );
-	}
 
 	public function deleteForm( $item )
 	{

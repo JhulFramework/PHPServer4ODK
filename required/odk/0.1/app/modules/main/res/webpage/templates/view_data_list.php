@@ -1,9 +1,14 @@
 <?php $this->embedCss('data_list'); ?>
-<?= $this->J()->cx('uiloader')->mBreadcrumb(); ?>
+
+<div class="uk-container uk-container-large uk-align-center" >
+	<ul class="uk-breadcrumb">
+	    <li><span>HOME</span></li>
+	</ul>
+</div>
 
 <?php if( empty( $data ) ) : ?>
-<div class="uk-container-center" style="display:block; margin:auto; width:100%; max-width:400px; text-align:center"  >
-<h2 style="color:#aaa;"> No Forms Submitted by Collect yet </h2>
+<div class="uk-container-center" style="display:block; margin:auto; width:100%; max-width:400px; text-align:center;padding:60px 0;"  >
+<h2 style="color:#aaa;"> No Data Submitted by Collect yet </h2>
 <h3  style="color:#aaa;">Submit some forms before listing</h3>
 </div>
 <?php else: ?>

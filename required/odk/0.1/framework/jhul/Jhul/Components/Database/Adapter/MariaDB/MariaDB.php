@@ -8,32 +8,27 @@ class MariaDB
 	//Multiple stores of same class having different aspects can exists
 	protected $_stores;
 
+	public function addStore( $context, $table ) { $this->_stores[$context] = $table; }
+
 	public function __construct( $pdo )
 	{
 		$this->_pdo = $pdo;
 	}
 
-	public function pdo()
+
+	public function _delete( $item )
 	{
-		return $this->_pdo;
+		$statement = $this->executeStatement
+		(
+			$this->makeStatement( 'delete'  )->setTable( $item->tableName() )->where( $item->keyName(),  $item->key() )
+		);
+
+		$statement = NULL ;
 	}
 
-	protected function _loadTableSchema( $name )
+	public function dispenser( $prototype )
 	{
-		return  $this->makeStatement( 'show_columns' )->setTable($name)->cookData( $this->pdo() );
-	}
-
-
-	public function name()
-	{
-		if( NULL == $this->_name )
-		{
-			$pos = strrpos( $this->dsn, '='  ) ;
-
-			$this->_name = substr( $this->dsn, $pos + 1 );
-		}
-
-		return $this->_name ;
+		return new Dispenser( $prototype );
 	}
 
 	public function executeStatement( $statement )
@@ -50,6 +45,20 @@ class MariaDB
 		}
 	}
 
+	public function getTableColumns( $table_name )
+	{
+		$schema = $this->tableSchema($table_name);
+
+		$columns = [];
+
+		foreach ($schema as $key => $value)
+		{
+			$columns[$key] = $key;
+		}
+
+		return $columns ;
+	}
+
 	//Tbale is common but statement cannot be shared
 	//TODO use a better way to preven statement sharing
 	public function getStore( $context_table )
@@ -62,23 +71,72 @@ class MariaDB
 		throw new \Exception( 'Table Mode "'.$context_table.'" Not Created ' );
 	}
 
-	public function hasStore( $context_table )
+	public function hasStore( $context_table ){ return isset( $this->_stores[$context_table] ); }
+
+	public function insert( $item )
 	{
-		return isset( $this->_stores[$context_table] );
+		if( !is_object($item) )
+		{
+			throw new \Exception("Error Processing Request", 1);
+
+		}
+
+		$statement = $this->executeStatement
+		(
+			$this->makeStatement( 'insert'  )->setTable( $item->tableName() )->setData( $item->_mData()->_get() )
+		);
+
+		$statement = NULL ;
+
+		//	$this->getDB()->makeStatement( $type  )->setTable( $item->tableName() )->where( $this->keyColumn(),  $item->key() )
+		//$statement = $this->makeStatement( 'insert'  )->setTable( $item->tableName() )->setData( $item->_mData()->_get() ) ;
+
+
 	}
 
-	public function addStore( $context, $table )
+	protected function _loadTableSchema( $name )
 	{
-		 $this->_stores[$context] = $table;
+		return  $this->makeStatement( 'show_columns' )->setTable($name)->cookData( $this->pdo() );
 	}
 
-	public function makeStatement( $type = 'custom' )
+	public function makeStatement( $type = 'custom' ){ return Statement\Statement::I()->make( $type ); }
+
+	public function name()
 	{
-		return Statement\Statement::I()->make( $type );
+		if( NULL == $this->_name )
+		{
+			$pos = strrpos( $this->dsn, '='  ) ;
+
+			$this->_name = substr( $this->dsn, $pos + 1 );
+		}
+
+		return $this->_name ;
+	}
+
+	public function pdo(){ return $this->_pdo; }
+
+	protected $_tables = [];
+
+	public function tableSchema( $name )
+	{
+		if( !empty( $name ) )
+		{
+			if( array_key_exists( $name, $this->tables() ) )
+			{
+				if( empty( $this->_tables[$name] ) )
+				{
+					$this->_tables[$name] = $this->_loadTableSchema( $name );
+				}
+
+				return $this->_tables[$name] ;
+			}
+
+			return [];
+		}
 	}
 
 	// Return All tables of this database
-	public function tables( $name = NULL )
+	public function tables()
 	{
 		if( empty( $this->_tables ) )
 		{
@@ -91,22 +149,35 @@ class MariaDB
 			}
 		}
 
-		if( !empty( $name ) )
-		{
-			if( array_key_exists( $name, $this->_tables ) )
-			{
-				if( empty( $this->_tables[$name] ) )
-				{
-
-					$this->_tables[$name]['columns'] = $this->_loadTableSchema( $name );
-				}
-
-				return $this->_tables[$name] ;
-			}
-
-			return [];
-		}
+		// if( !empty( $name ) )
+		// {
+		// 	if( array_key_exists( $name, $this->_tables ) )
+		// 	{
+		// 		if( empty( $this->_tables[$name] ) )
+		// 		{
+		//
+		// 			$this->_tables[$name]['columns'] = $this->_loadTableSchema( $name );
+		// 		}
+		//
+		// 		return $this->_tables[$name] ;
+		// 	}
+		//
+		// 	return [];
+		// }
 
 		return $this->_tables;
 	}
+
+
+	public function update( $item )
+	{
+		$statement = $this->executeStatement
+		(
+			$this->makeStatement( 'update'  )->setTable( $item->tableName() )
+			->setData( $item->_mData()->_get() )->where( $item->keyName(),  $item->key() )
+		);
+
+		$statement = NULL ;
+	}
+
 }

@@ -9,12 +9,14 @@ class M extends \Jhul\Components\Database\Store\Data\_Class
 		return __NAMESPACE__.'\\Store';
 	}
 
-	public function queryParams()
+	public function keyName(){ return 'xml_form_key'; }
+
+	public function tableName(){ return 'xforms'; }
+
+
+	public function context()
 	{
-		return
-		[
-			'select' => '*',
-		];
+		return 'write';
 	}
 
 	public function name()
@@ -24,12 +26,12 @@ class M extends \Jhul\Components\Database\Store\Data\_Class
 
 	public function url()
 	{
-		return $this->getApp()->url().'/download/'.$this->ik();
+		return $this->getApp()->url().'/download/'.$this->key();
 	}
 
 	public function deletionurl()
 	{
-		return $this->getApp()->url().'/manage_forms/'.$this->ik().'/delete';
+		return $this->getApp()->url().'/manage_forms/'.$this->key().'/?a=delete';
 	}
 
 	public function rurl()

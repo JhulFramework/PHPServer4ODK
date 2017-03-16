@@ -7,10 +7,10 @@
 | - Path should in format path/subPath, not /path/subpath
 |
 | @Updated -
-|	-Sat 13 June 2015 08:59:44 AM IST
+|	[ -Sat 13 June 2015 08:59:44 AM IST
 |	-Sun 07 Feb 2016 04:34:05 PM IST
 |	-31-May-2016
-|	-2016-jun-13
+|	-2016-jun-13 , 2016-02-10 ]
 |
 | TODO CACHE loaded map
 +---------------------------------------------------------------------------------------------------------------------*/
@@ -24,13 +24,17 @@ class Router
 
 
 	protected $defaultRoute = 'index';
+
 	protected $errorRoute = 'error404';
 
 	public $pathMap = [];
 
 	public $depthMap = [];
 
-	protected $map = [
+	protected $_config;
+
+	protected $map =
+	[
 
 		/* Contains only static route*/
 		'static' => [],
@@ -40,10 +44,23 @@ class Router
 
 	];
 
+
 	public function __construct( $params )
 	{
+		$this->config()->add( $params );
+
 		$this->add( $params['routes'] );
 	}
+
+	public function config( $key = NULL, $required = TRUE )
+	{
+		if( empty($this->_config) ) { $this->_config = new \Jhul\Core\Containers\Config; }
+
+		if( !empty( $key ) ) return $this->_config->get($key, $required);
+
+		return $this->_config;
+	}
+
 
 	function map( $key = NULL )
 	{
@@ -69,39 +86,48 @@ class Router
 
 	public $caseSensitive = FALSE;
 
-	/*
-	 * regex patterns by name
-	*/
+	// regex patterns by name
 	private $regexFilters =
 	[
 
 		'alnum' => '/^[\w]+$/',
 	];
 
-	/*
-	 * Adds a regex filter
-	*/
-	function addRegexFilter($name, $regex)
+	public function addRegexFilter($name, $regex)
 	{
 		$this->regexFilters[$name] = $regex;
 	}
 
+	public function pageIdentifier()
+	{
+		return $this->config('page_identifier');
+	}
 
+	public function staticPageIdentifier()
+	{
+		return $this->config('static_page_identifier');
+	}
+
+	public function nodeIdentifier()
+	{
+		return $this->config('node_identifier');
+	}
 
 	private $_route =
 	[
+		'key'		=>  '',
 
-			'I'		=>  '',
+		//PATH
+		'P'		=> [ 'V' => '', 'P' => [], ],
 
-			//PATH
-			'P'		=> [ 'V' => '', 'P' => [], ],
+		'params'		=> [],
 
-			//DATA
-			'D'		=> [],
+		//HANDLER
+		'handler'		=> [ 'module_key' => '', 'node' => '', 'page' => '', 'static_page' => '' ],
 
-			//HANDLER
-			'H'		=> [ 'M' => '', 'N' => '' ],
+		'type_identifier'	=> '',
 
+		'type'		=> '',
 
 	];
 
@@ -122,41 +148,85 @@ class Router
 		}
 
 		//cooking new route
-		$route =  $this->_route ;
+		$route = $this->_route ;
 
-		$handler = explode( ':', $handler );
 
 		if( 0 === strpos( $path, ':') )
 		{
-			$route['I'] = substr( $path, 1 );
+			//registering key of route without and does match to nay url path
+			$route['key'] = substr( $path, 1 );
 		}
 		else
 		{
-			$route['I'] = $path;
+			// url path based route
+			// its path is its key
+			$route['key'] = $path;
 			$route['P']['P'] =  array_filter( explode( '/', trim( $path, '/' ) ) );
 			$route['P']['V'] = $path;
 		}
 
+		$route['handler'] = $handler;
 
-		//adding path
+		if( strpos( $handler,  $this->nodeIdentifier() ) )
+		{
+			$route['type_identifier'] = $this->nodeIdentifier();
+			$route['type']	= 'node';
+		}
+		elseif( strpos( $handler,  $this->pageIdentifier() ) )
+		{
+			$route['type_identifier'] = $this->pageIdentifier();
+			$route['type']	= 'page';
+		}
+		elseif( strpos( $handler,  $this->staticPageIdentifier() ) )
+		{
+			$route['type_identifier'] = $this->staticPageIdentifier();
+			$route['type']	= 'static_page';
+		}
+		// if target value contain ':' character it mean it is module:handler pattern
+		// if( strpos( $handler, ':') )
+		// {
+		// 	$handler = explode( ':', $handler );
+		//
+		// 	//registering module for path handling
+		// 	$route['handler']['module_key'] = $handler[0];
+		//
+		// 	//registering node for path handling
+		// 	$route['handler']['node'] = $handler[1];
+		// }
+		//
+		// // else if target value contain '.' character it mean it is module:Page pattern
+		// else if( strpos( $handler, '.') )
+		// {
+		// 	$handler = explode( '.', $handler );
+		//
+		// 	$handler[_page]
+		// 	//registering module for path handling
+		// 	//$route['handler']['module_key'] = $handler[0];
+		//
+		// 	//registering page as route response
+		// 	//$route['handler']['page'] = $handler[1];
+		// }
+		//
+		// else if( strpos( $handler, '-') )
+		// {
+		// 	$handler = explode( '-', $handler );
+		//
+		// 	//registering module for path handling
+		// 	$route['handler']['module_key'] = $handler[0];
+		//
+		// 	//registering page as route response
+		// 	$route['handler']['static_page'] = $handler[1];
+		// }
 
-		//registering module for path handling
-		$route['H']['M'] = $handler[0];
-
-		//registering node for path handling
-		$route['H']['N'] = $handler[1];
 
 
-		/*
-		 * checking if its a simple static route
-		*/
+	 	//checking if its a simple static route
 		if(  ( FALSE === strpos( $route['P']['V'], $this->regexIdentifier ) ) && ( FALSE === strpos( $route['P']['V'], $this->varBoundary ) ) )
 		{
 			$this->addStatic($route );
 		}
 
 		$this->addDynamic($route)  ;
-
 	}
 
 	protected function addStatic( $route )
@@ -167,7 +237,7 @@ class Router
 		}
 		else
 		{
-			$this->map['hidden'][ $route['I'] ] = $route ;
+			$this->map['hidden'][ $route['key'] ] = $route ;
 		}
 	}
 
@@ -181,37 +251,39 @@ class Router
 		{
 			$this->depthMap[ count($route['P']['P']) ][ ] = $route['P']['V'];
 
-			$this->map['dynamic'][ $route['I'] ] = $route;
+			$this->map['dynamic'][ $route['key'] ] = $route;
 		}
-
 	}
-
 
 	function match( $path, $trace = FALSE  )
 	{
-
 		$path = trim($path,'/');
 
 		$route = $this->_match( $path  );
 
 		if( empty($route) )
 		{
-			$route =  $this->get( $this->defaultRoute );
+			$route = $this->get( 'error404' );
+			$route['status_code'] = 404;
+		}
+		else
+		{
+			$route['status_code'] = 200;
 		}
 
 
 		return new Route( $this->_prepareRoute( $path,  $route) );
-
 	}
 
 	protected function _prepareRoute( $path, $route )
 	{
-		if( !empty($path) )
-		{
-			$path = '/'.$path;
-		}
 
-		$route['P']['P'] = explode('/', $path);
+
+		$path = explode('/', '/'.$path);
+
+		unset($path[0]);
+
+		$route['P']['P'] = $path;
 
 		return $route;
 
@@ -258,7 +330,6 @@ class Router
 			{
 				foreach( $this->depthMap[ $count ] as $id )
 				{
-					//$match = $this->matchPath( $this->map['dynamic'][$id]['parts'], $paths, $count );
 
 					if( FALSE != ( $match = $this->matchPath( $this->map['dynamic'][$id]['P']['P'], $paths, $count ) ) )
 					{
@@ -267,7 +338,6 @@ class Router
 						return array_merge( $this->map['dynamic'][$id], $match ) ;
 					}
 				}
-
 			}
 		}
 
@@ -275,7 +345,7 @@ class Router
 	}
 
 
-	function matchPath( $patterns, $paths , $count )
+	public function matchPath( $patterns, $paths , $count )
 	{
 
 		$args = [] ;
@@ -338,7 +408,7 @@ class Router
 			$args = array_merge( $args, $a );
 		}
 
-		return [ 'D' => $args ] ;
+		return [ 'params' => $args ] ;
 	}
 
 	private function strMatch( $str1, $str2 )
@@ -349,7 +419,7 @@ class Router
 	}
 
 	// direct access
-	function get( $id, $silent = FALSE )
+	public function get( $id, $silent = FALSE )
 	{
 		if( isset( $this->map['hidden'][$id] ) ) return $this->map['hidden'][$id] ;
 
@@ -367,10 +437,4 @@ class Router
 	{
 		return FALSE !== strpos( $path, $this->varBoundary ) ;
 	}
-
-	function isSingleton()
-	{
-		return TRUE;
-	}
-
 }

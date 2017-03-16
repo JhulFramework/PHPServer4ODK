@@ -64,7 +64,7 @@ class BFD
 		$this->_delay_threshold_map[ $onAttemptCount ] = $delayTime;
 	}
 
-	public function getFormIK( $name )
+	public function getFormKey( $name )
 	{
 		if( isset( $this->_forms[$name] ) )
 		{
@@ -74,27 +74,24 @@ class BFD
 		throw new \Exception( 'Form "'.$name.'" not registered', 1);
 	}
 
-	public function DB()
+	public function has( $user_key, $formName )
 	{
-		return DB\Attempt::I()->store();
+		return NULL != $this->get( $user_key, $formName );
 	}
 
-	public function has( $UIK, $formName )
+	public function get( $user_key, $form_name, $autoSleep = TRUE )
 	{
-		return NULL != $this->get( $UIK, $formName );
-	}
+		$form_key = $this->getFormKey( $form_name );
 
-	public function get( $UIK, $form_name, $autoSleep = TRUE )
-	{
-		$form_ik = $this->getFormIK( $form_name );
 
-		$params  = [ 'user_ik' => $UIK, 'form_ik' => $form_ik ];
 
-		$attempt = $this->DB()->byParams( $params )->fetch();
+		$params  = [ 'user_key' => $user_key, 'form_key' => $form_key ];
 
-		if( empty( $attempt )  )
+		$attempt = DB\Attempt::D()->byParams( $params )->fetch();
+
+		if( $attempt->isNULL() )
 		{
-			$attempt = $this->DB()->make( $params );
+			$attempt = DB\Attempt::I()->store()->createAndCommit( 'write', $params );
 		}
 
 		//delaying depends on the number of attempts

@@ -1,21 +1,22 @@
 <?php namespace _modules\user\nodes\login;
 
-class Handler extends \Jhul\Core\Application\Node\Handler\_Class
+class Handler extends \Jhul\Core\Application\Handler\_Class
 {
-	public function run()
+	public function handle()
 	{
 
-		if( !$this->getApp()->endUser()->isLoggedIn() )
+		if( $this->getApp()->user()->isAnon() )
 		{
 			$form = new Form;
 
-			if( $form->collect() && $form->validate() )
+
+			if( $form->collect() && $form->login())
 			{
-				$form->login();
+				$this->getApp()->setFlash('Login Success !');
 				$this->getApp()->redirect( $this->getApp()->url() );
 			}
 
-			$this->getApp()->outputAdapter()->cook( 'login', [ 'form'=> $form ] );
+			$this->getApp()->response()->page()->cook( 'login', [ 'form'=> $form ] );
 		}
 	}
 }

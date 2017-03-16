@@ -8,7 +8,7 @@ class Captcha
 
 	protected $_form;
 
-	protected $_name = 'captcha';
+	protected $_name = '_captcha';
 
 	public function __construct( $form )
 	{
@@ -17,7 +17,6 @@ class Captcha
 
 	public function field()
 	{
-
 		if( $this->isActive() )
 		{
 			$builder = new \Gregwar\Captcha\CaptchaBuilder;
@@ -30,46 +29,27 @@ class Captcha
 		}
 	}
 
-	public function name()
-	{
-		return $this->_name;
-	}
+	public function name() { return $this->_name; }
 
-	public function sessionKey()
-	{
-		return 'captcha/'.$this->_form->name().'/value';
-	}
+	public function key(){ return 'captcha.'.$this->_form->name() ; }
 
 	public function validate()
 	{
-
-		if( NULL != $this->_form->fieldValue( $this->_name ) )
+		if( NULL != $this->_form->fieldValue( $this->name() ) && $this->isActive() )
 		{
-			return 0 == strcasecmp(  $this->_form->fieldValue( $this->_name ) , $this->value() );
+			return 0 == strcasecmp(  $this->_form->fieldValue( $this->_name ) , $this->session()->pull( $this->key() ) );
 		}
 
 		return FALSE;
 	}
 
-	public function isActive()
-	{
-		return $this->J()->cx('session')->has('captcha/login/enable');
-	}
+	public function isActive() { return $this->session()->has( $this->key() ); }
 
-	public function activate()
-	{
-		$this->J()->cx('session')->set('captcha/login/enable', TRUE);
-	}
+	public function activate() { $this->session()->set( $this->key() ); }
 
-	public function deActivate()
-	{
-		$this->J()->cx('session')->remove('captcha/login/enable');
-	}
+	public function deActivate(){ $this->session()->remove( $this->key() ); }
 
+	public function value(){ return $this->session()->get( $this->key() ); }
 
-	public function value()
-	{
-		return $this->J()->cx('session')->get( $this->sessionKey() );
-	}
-
+	protected function session(){ return $this->getApp()->session(); }
 }

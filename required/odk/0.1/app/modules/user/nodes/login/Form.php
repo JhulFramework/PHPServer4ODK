@@ -1,8 +1,13 @@
 <?php namespace _modules\user\nodes\login;
 
-class Form extends \Jhul\Components\Form\Base
+class Form extends \Jhul\Components\Form\_Class
 {
-	protected function fields()
+	public function name()
+	{
+		return 'xml_form_upload';
+	}
+
+	public function fields()
 	{
 		return
 		[
@@ -14,13 +19,15 @@ class Form extends \Jhul\Components\Form\Base
 
 	public function login()
 	{
-
-
 		if( !$this->hasError() )
 		{
 			$user = $this->module()->mUser()->findByIName( $this->iname->value() );
 
-			$this->getApp()->endUser()->login( $user );
+			if( !$user->isNULL() &&  0 === strcmp( $this->password->value(), $user->read('password') )   )
+			{
+				$this->getApp()->user()->login( $user );
+				return TRUE;
+			}
 		}
 	}
 }

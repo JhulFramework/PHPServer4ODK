@@ -1,30 +1,31 @@
 <?php namespace _modules\main\nodes\data;
 
-class Handler extends \Jhul\Core\Application\Node\Handler\_Class
+class Handler extends \Jhul\Core\Application\Handler\_Class
 {
-	public function nextNodeNameType()
+	public function canHandleNextNode()
 	{
-		return 'pdn';
+		return TRUE;
 	}
 
-	public function run()
+	public function handle()
 	{
+		$this->getApp()->showFlash();
 
-		if( $this->isEnd() )
+		if( !$this->mPath()->hasNext() )
 		{
 			$this->J()->cx('uiloader')->mbreadcrumb()->add( 'SUBMITTED DATA', $this->getApp()->url()  );
 
-			$data = \_modules\main\models\data\M::I()->store()->limit(10)->fetchAll();
+			$data = \_modules\main\models\data\M::D()->limit(10)->fetchAll();
 
-			return $this->getApp()->outputAdapter()->cook( 'data_list', [ 'data' => $data ] );
+			return $this->getApp()->response()->page()->cook( 'data_list', [ 'data' => $data ] );
 		}
 
-		if( NULL != $this->next() )
+		if( $this->mPath()->hasNext() )
 		{
 
 			$this->getApp()->m('user'); //loading xml datatype from user module
 
-			$data = \_modules\main\models\data\M::I()->store()->byik( $this->next() )->fetch();
+			$data = \_modules\main\models\data\M::D()->byKey( $this->mPath()->next() )->fetch();
 
 			if( empty($data) ) return ;
 
@@ -32,28 +33,33 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 			{
 				if( 'xml' == $_GET['download'] )
 				{
-					$this->getApp()->outputAdapter()->setUseLayout(FALSE);
-					$this->J()->cx('http')->R()->headers->set('Content-Type', 'text/xml');
-					$this->J()->cx('http')->R()->headers->set('Content-Disposition','attachment; filename="'.$data->name().'.xml"');
-					$this->getApp()->outputAdapter()->addContent( $data->content()->asXML() );
+					$this->r()->page()->setUseLayout(FALSE);
+					$this->R()->addHeader('Content-Type', 'text/xml');
+					$this->R()->addHeader('Content-Disposition','attachment; filename="'.$data->name().'.xml"');
+					$this->r()->page()->addContent( $data->content()->asXML() );
 
 					return ;
 				}
 
 				if( 'json' == $_GET['download'] )
 				{
-					$this->getApp()->outputAdapter()->setUseLayout(FALSE);
-					$this->J()->cx('http')->R()->headers->set('Content-Type', 'text/json');
-					$this->J()->cx('http')->R()->headers->set('Content-Disposition','attachment; filename="'.$data->name().'.json"');
-					$this->getApp()->outputAdapter()->addContent( $data->content()->asJSON() );
+					$this->R()->page()->setUseLayout(FALSE);
+					$this->R()->addHeader('Content-Type', 'text/json');
+					$this->R()->addHeader('Content-Disposition','attachment; filename="'.$data->name().'.json"');
+					$this->R()->page()->addContent( $data->content()->asJSON() );
 					return;
 				}
 			}
 
 
-			$this->getApp()->outputAdapter()->mStyle()->embed( $this->getApp()->mDataType('xml')->style() );
+			$this->r()->page()->mStyle()->embed( $this->getApp()->mDataType('xml')->style() );
 
-			return $this->getApp()->outputAdapter()->addContent( $this->getApp()->mDataType('xml')->formatArray( $data->content()->asArray() ) );
+			return $this->r()->page()->addContent( $this->getApp()->mDataType('xml')->formatArray( $data->content()->asArray() ) );
 		}
+	}
+
+	public function r()
+	{
+		return $this->getApp()->response();
 	}
 }

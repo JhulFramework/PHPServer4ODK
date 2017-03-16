@@ -5,15 +5,16 @@
 | @Created : Sun 07 Feb 2016 06:45:57 PM IST
 |
 | Requested URI Node
-|
 +---------------------------------------------------------------------------------------------------------------------*/
 
 class Path
 {
 
-	private $_pieces = [];
+	private $_breadCrumbs = [];
 
 	private $_value = '' ;
+
+	protected $_pointer = 1;
 
 	public function __construct( $path )
 	{
@@ -21,26 +22,40 @@ class Path
 
 		foreach ($path['P'] as $key => $P)
 		{
-			$this->_pieces[$key] = urlDecode($P);
+			$this->_breadCrumbs[$key] = urlDecode($P);
 		}
 
 	}
 
-	public function value()
+	public function current()
 	{
-		return $this->_value;
+		return $this->_breadCrumbs[ $this->_pointer ] ;
 	}
 
-	public function last()
+	public function next()
 	{
-		return end($this->_pieces);
+		if( isset( $this->_breadCrumbs[ $this->_pointer + 1 ] ) )
+		{
+			return $this->_breadCrumbs[ $this->_pointer + 1 ] ;
+		}
 	}
+
+	public function hasNext()
+	{
+		 return isset( $this->_breadCrumbs[ $this->_pointer + 1 ] );
+	}
+
+	public function moveToNext() { ++$this->_pointer; }
+
+	public function value() { return $this->_value; }
+
+	public function last(){ return end($this->_breadCrumbs); }
 
 	public function get( $pointer )
 	{
-		if( isset( $this->_pieces[$pointer] ) )
+		if( isset( $this->_breadCrumbs[$pointer] ) )
 		{
-			return $this->_pieces[$pointer] ;
+			return $this->_breadCrumbs[$pointer] ;
 		}
 	}
 
@@ -51,7 +66,7 @@ class Path
 
 	public function map()
 	{
-		return $this->_pieces;
+		return $this->_breadCrumbs;
 	}
 
 	function getFrom( $fromIndex, $preserveKeys = TRUE )

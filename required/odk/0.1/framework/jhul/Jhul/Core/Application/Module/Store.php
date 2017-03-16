@@ -20,7 +20,7 @@
 |		- register view dependency files
 |		- register translation file map
 |
-|@Updated : [ 2016-august-01, 2016-Oct-01, 2016-Oct-16 ]
+|@Updated : [ 2016-august-01, 2016-Oct-01, 2016-Oct-16, 2017-02-12 ]
 +---------------------------------------------------------------------------------------------------------------------*/
 
 class Store
@@ -54,10 +54,8 @@ class Store
 		return $this->_loaded_module[ $name ];
 	}
 
-
 	protected function load( $name )
 	{
-
 		$module_path = $this->J()->fx()->dirPath( $this->_module_map[$name] );
 
 		$this->J()->cx('classmapper')->register
@@ -65,88 +63,17 @@ class Store
 			 $this->J()->fx()->loadConfigFile(  $module_path.'/config/_classmap', FALSE )
 		);
 
-		$this->_loaded_module[ $name ] = ( new $this->_module_map[$name] )->_s( 'path', $module_path ) ;
+		$module = ( new $this->_module_map[$name] )->_s( 'path', $module_path ) ;
+
+		$this->_loaded_module[ $name ] = $module;
+
+		$this->getApp()->configLoader()->registerPages( $module->path(), $module->name() );
+
+		$this->getApp()->configLoader()->registerHandlers( $module->path(), $module->name() );
+
 		$this->getApp()->configLoader()->load( $this->_loaded_module[ $name ] ) ;
 
-		// $res = $this->loadConfigFile( $module->path().'/res/_res', FALSE );
-		//
-		// if( !empty($res) )
-		// {
-		// 	$this->registerResources( $res );
-		// }
-		//
-		// $this->_loaded_module[ $name ] = $module;
 	}
-
-	// protected function configureModule( $module )
-	// {
-	// 	$module->_s( 'path', $this->J()->fx()->dirPath( $module->getClass() ) );
-	//
-	// 	$module->data()->add
-	// 	(
-	// 		$this->loadConfigFile( $module->path().'/config/_main', FALSE )
-	// 	);
-	//
-	// 	$this->getApp()->activityManager()->register
-	// 	(
-	// 		$module->name(),
-	// 		$this->loadConfigFile( $module->path().'/config/_activities' )
-	// 	);
-	//
-	// 	$this->getApp()->handlerManager()->register
-	// 	(
-	// 		$module->name(),
-	// 		$this->loadConfigFile( $module->path().'/config/_handlers' )
-	// 	);
-	//
-	// 	$module->elementMap = $this->loadConfigFile( $module->path().'/config/elements/_map', FALSE );
-	//
-	// 	return $module;
-	// }
-
-	//
-	// public function validateClassExists( $map, $file )
-	// {
-	// 	foreach ( $map as $key => $class)
-	// 	{
-	// 		if( !class_exists($class) )
-	// 		{
-	// 			throw new \Exception( 'Class "'.$class.'" does not exists defined in file "'.$file.'" ' , 1);
-	// 		}
-	// 	}
-	//
-	// 	return $map;
-	// }
-
-
-	// protected function registerResources( $res )
-	// {
-	// 	$res = array_merge( [ 'views'=>'', 'styles' =>'', 'i18n'=> '' ], $res );
-	//
-	//
-	// 	if( $this->getApp()->getUserclient()->ifConsumes( 'webpage' )  )
-	// 	{
-	//
-	// 		$this->getApp()->outputAdapter()->view()->register
-	// 		(
-	// 			$this->loadConfigFile( $res['views'], FALSE )
-	// 		);
-	//
-	//
-	// 		$this->getApp()->outputAdapter()->style()->register
-	// 		(
-	// 			$this->loadConfigFile( $res['styles'], FALSE )
-	// 		);
-	// 	}
-	//
-	// 	$this->J()->cx('lipi')->register( $this->loadConfigFile( $res['i18n'], FALSE  ) );
-	// }
-	//
-	//
-	// protected function loadConfigFile( $file, $required = TRUE )
-	// {
-	// 	return $this->J()->fx()->loadConfigFile( $file, $required );
-	// }
 
 	public function __toString()
 	{

@@ -28,7 +28,7 @@ class SharedData
 			return $this->safe[$argKey] ;
 		}
 
-		return $this->_safe[$argKey] = $this->getApp()->route()->getData( $argKey );
+		return $this->_safe[$argKey] = $this->getApp()->user()->request()->route()->getData( $argKey );
 	}
 
 	public function get( $key )

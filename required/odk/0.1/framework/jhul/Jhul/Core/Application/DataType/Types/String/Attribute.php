@@ -38,7 +38,7 @@ class Attribute extends \Jhul\Core\Application\DataType\_Attribute\_Class
 
 		$this->config()->add
 		([
-			'definition'		=>  'L=1-300',
+			'definition'		=>  'L=1-8000',
 			'required'			=> TRUE,
 			'validation_steps'	=> 'type:minLength:maxLength',
 		]);
@@ -56,7 +56,7 @@ class Attribute extends \Jhul\Core\Application\DataType\_Attribute\_Class
 		{
 			if( FALSE == $this->$vMethod( $value_string ) )
 			{
-				$value->error()->add( $this->mErrorCode()->get( $vMethod ) );
+				$value->addError( $this->mErrorCode()->get( $vMethod ) );
 
 				return $value;
 			}

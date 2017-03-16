@@ -1,16 +1,24 @@
-<?= $this->J()->cx('uiloader')->mbreadcrumb() ?>
+<div class="uk-container" >
+<ul class="uk-breadcrumb">
+    <li><a href="<?= $this->getApp()->url() ?>">HOME</a></li>
+    <li><a href="<?= $this->getApp()->url() ?>/manage_forms">FORMS</a></li>
+    <li><span href="">UPLOAD</span></li>
+</ul>
+
+</div>
+
 <?php $this->embedCSS('upload') ; ?>
 
-<form action = "" method = "post" enctype = "multipart/form-data">
+<form class="upload" action = "" method = "post" enctype = "multipart/form-data">
 	<div>
 	<label for="xform_name">Form Name :</label>
-	<input id="xform_name" type="text"  <?= $form->fieldname('xform_name') ?> value="<?= $form->restore('xform_name') ?>" />
+	<input id="xform_name" type="text"  name="<?= $form->fieldname('xform_name') ?>" value="<?= $form->restore('xform_name') ?>" />
 	<?= $form->showError('xform_name') ?>
 	</div>
 
 	<div class="field">
 	<label for="form_body"> Select File </label>
-	<input id="form_body" type = "file" <?= $form->fieldname('xform_body') ?> />
+	<input id="form_body" type = "file" name="<?= $form->fieldname('xform_body') ?>" />
 	</div>
 
 	<div class="pad12" ></div>

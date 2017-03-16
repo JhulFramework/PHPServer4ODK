@@ -2,52 +2,20 @@
 
 class Mailer
 {
-	public $host ;
+	protected $_p = [];
 
-	public $port ;
-
-	public $username ;
-
-	public $password ;
-
-	public $transport = 'smtp';
-
-	public $from ;
-
-	public $boundary ;
-
-	public function _configure()
+	public function __construct( $p )
 	{
-		return array(
-
-			'host' => '',
-
-			'port' => '',
-
-			'username' => '',
-
-			'password' => '',
-
-			'transport' => '',
-
-			'from' => '',
-
-			'boundary' => ''
-
-		);
+		$this->_p = $p;
 	}
 
 	public function newMessage()
 	{
-		return Adapters\SwiftMessage::createNew( $this->transport, $this->host, $this->port, $this->username, $this->password )
+		return Adapters\SwiftMessage::createNew( $this->_p['transport'], $this->_p['host'], $this->_p['port'], $this->_p['username'], $this->_p['password'] )
 
-		->setFrom( array( $this->username => $this->from ) )
+		->setFrom( [ $this->_p['username'] => $this->_p['from'] ] )
 
-		->setBoundary( 'leafpad_'.time() ) ;
+		->setBoundary( $this->_p['boundary'].'_'.time() ) ;
 	}
-	
-	public function isSingleton()
-	{
-		return TRUE;
-	}
+
 }

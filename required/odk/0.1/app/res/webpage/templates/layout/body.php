@@ -1,9 +1,12 @@
-<?php require(__DIR__.'/header.php') ?>
-<div class="container">
-<div class="clear"></div>
+<?php require(__DIR__.'/top_bar.php') ?>
+
 <?= $content ; ?>
-<div class="clear"></div>
-</div>
+
+
 <div class="footer" >
-Powered By <a href="https://github.com/JhulFramework/Jhul" >JHUL FRAMEWORK</a>
+	<items>
+		<a href="https://github.com/JhulFramework/PHPServer4ODK" ><span  uk-icon="icon: github" ></span> Github </a>
+		<a href="https://opendatakit.org/"><span  uk-icon="icon: link" ></span> OpenDataKit </a>
+	</items>
+	<div><center><?= $this->getApp()->name(); ?></div></center>
 </div>

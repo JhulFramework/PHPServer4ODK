@@ -3,6 +3,9 @@
 /* @Author : Manish Dhruw [1D3N717Y12@gmail.com]
 +=======================================================================================================================
 | @Created : 13-Jun-2016
+|
+|
+| @Update : 2016-02-11
 +---------------------------------------------------------------------------------------------------------------------*/
 
 class Route
@@ -15,34 +18,55 @@ class Route
 	protected $_data;
 
 	//HANDLER MODULE
-	protected $_handler;
+	//protected $_handler;
 
-	protected $_ik;
+	//protected $_key;
+
+	private $_statusCode;
+
+	private $_route;
 
 	public function __construct( $route )
 	{
 
-		$this->_ik = $route['I'];
+		$this->_route = $route;
 
-		$this->_data 	= $route['D'];
+		//$this->_key = $route['key'];
+
+		//$this->_data 	= $route['data'];
 
 		$this->_path	= new Path( $route['P'] );
 
+		// //default is page
+		// $this->_handler =  $route['handler']['module_key'].'.'.$route['handler']['page'] ;
+		//
+		// //switch to handler if it is set
+		// if( !empty($route['handler']['node']) )
+		// {
+		// 	$this->_handler =  $route['handler']['module_key'].'.'.$route['handler']['node'] ;
+		// }
 
-
-		//$this->_handler	= new Handler( $route['H'] );
-		$this->_handler =  $route['H']['M'].'.'.$route['H']['N'] ;
-
+		$this->_statusCode = $route['status_code'] ;
 	}
 
-	public function ik()
+	public function statusCode() { return $this->_statusCode; }
+
+	public function key()
 	{
-		return $this->_ik;
+		return $this->_route['key'];
 	}
 
-	public function data()
+	// public function moduleKey() { return $this->_route['handler']['module_key']; }
+	//
+	// public function nodeKey() { return $this->_route['handler']['node']; }
+	//
+	// public function pageKey() { return $this->_route['handler']['page']; }
+	//
+	// public function staticPageKey() { return $this->_route['handler']['static_page']; }
+
+	public function params()
 	{
-		return $this->_data;
+		return $this->_route['params'];
 	}
 
 	public function getData( $key )
@@ -60,16 +84,36 @@ class Route
 		}
 	}
 
-	public function handler()
+	public function getParam( $key, $type )
 	{
-		return $this->_handler;
+		$value = null;
+
+		if( isset( $this->_route['params'][ $key ] )  )
+		{
+			$value = $this->_route['params'][$key];
+		}
+
+		return $this->getApp()->mDataType( $type )->make( $value );
 	}
 
 
-	public function path()
+	public function handler()
+	{
+		return $this->_route['handler'];
+	}
+
+	public function nav()
 	{
 		return $this->_path;
 	}
 
+	public function typeIdentifier()
+	{
+		return $this->_route['type_identifier'];
+	}
 
+	public function type()
+	{
+		return $this->_route['type'];
+	}
 }

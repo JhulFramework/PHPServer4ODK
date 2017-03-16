@@ -19,6 +19,13 @@ class M  extends \Jhul\Components\Database\Store\Data\_Class
 		return __NAMESPACE__.'\\Store';
 	}
 
+	public function tableName()
+	{
+		return 'submitted_data_content';
+	}
+
+	public function keyName(){ return 'data_key'; }
+
 
 	public function asArray()
 	{
@@ -46,14 +53,9 @@ class M  extends \Jhul\Components\Database\Store\Data\_Class
 		return $this->read('content');
 	}
 
-	public function accessMode()
+	public function context()
 	{
-		return 's';
-	}
-
-	public function queryParams()
-	{
-		return [ 'select' => '*' ];
+		return 'write';
 	}
 
 

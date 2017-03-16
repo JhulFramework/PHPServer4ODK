@@ -21,9 +21,6 @@
 class Lipi
 {
 
-	const VERSION = '0.5';
-
-
 	private $_default_language = 'english' ;
 
 	//Language Object
@@ -55,6 +52,7 @@ class Lipi
 			return $this->_codes[$type][$language_name] ;
 		}
 	}
+
 
 	public function get( $language, $type = 'numeric' )
 	{
@@ -127,7 +125,7 @@ class Lipi
 	}
 
 	//TRANSLATE
-	public function T( $key )
+	public function T( $key, $params = [] )
 	{
 		if( is_array( $key ) )
 		{
@@ -135,15 +133,30 @@ class Lipi
 
 			$language_name = $this->currentLanguage()->name();
 
-			foreach ($key as $k)
+			foreach ($key as $k => $v)
 			{
-				$strings[$k] = $this->resource()->get( $k, $language_name );
+				$strings[$k] = $this->resource()->get( $v, $language_name );
 			}
 
 			return $strings ;
 		}
 
-		return $this->resource()->get( $key, $this->currentLanguage()->name() );
+		$string = $this->resource()->get( $key, $this->currentLanguage()->name() );
+
+		if( !empty($params) )
+		{
+			$params = $this->T( $params );
+
+			foreach ( $params as $key => $value )
+			{
+				$params[ '|{{'.$key.'}}|' ] = $value;
+				unset($params[$key]);
+			}
+
+			$string = preg_replace(array_keys($params), array_values($params), $string );
+		}
+
+		return $string;
 	}
 
 	//@param can be language name or numeric code or iso6393 code
@@ -163,8 +176,14 @@ class Lipi
 		return !empty($this->_codes['numeric'][$language] );
 	}
 
+
 	public function verifyName( $name )
 	{
 		return isset($this->_codes['numeric'][$name] );
+	}
+
+	public function map( $type='numeric' )
+	{
+		return $this->_codes[$type];
 	}
 }

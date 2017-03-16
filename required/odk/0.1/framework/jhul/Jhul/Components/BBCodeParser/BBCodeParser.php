@@ -1,9 +1,5 @@
 <?php namespace Jhul\Components\BBCodeParser;
 
-require_once( REQUIRED_PATH.'/vendor/JBBCode/Parser.php' );
-
-//require_once( REQUIRED_PATH.'/vendor/htmlpurifier/library/HTMLPurifier.auto.php' );
-
 class BBCodeParser
 {
 	protected static $_allowed_url_map = [];
@@ -39,8 +35,6 @@ class BBCodeParser
 
 	public function parser()
 	{
-
-
 		return $this->_parser;
 	}
 

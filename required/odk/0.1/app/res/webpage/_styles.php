@@ -1,4 +1,4 @@
 <?php return
 [
-	'main' => __DIR__.'/templates/main', 
+	'form' => __DIR__.'/templates/form',
 ];

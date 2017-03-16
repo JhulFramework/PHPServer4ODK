@@ -8,12 +8,13 @@ class Manager
 	{
 		if( $this->getApp()->mDataType('iname')->make($iname)->isValid() )
 		{
-			return M::I()->store()->byIName( $iname )->fetch();
+			return M::D()->where( 'iname', $iname )->fetch();
 		}
 	}
 
-	public function find( $ik )
+	public function getAsVisitor( $user_key )
 	{
-		return M::I()->store()->byIk( $ik )->fetch();
+		return M::D()->byKey( $user_key )->fetch();
 	}
+
 }

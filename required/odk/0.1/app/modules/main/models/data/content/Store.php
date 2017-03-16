@@ -3,32 +3,22 @@
 class Store extends \Jhul\Components\Database\Store\_Class
 {
 
-	public function dataClasses()
+	public function items()
 	{
 		return
 		[
-			's' => __NAMESPACE__.'\\M',
+			'write' =>
+			[
+				'class' => __NAMESPACE__.'\\M',
+				'select' => '*',
+			],
 		];
 	}
 
-	public function name()
+
+	public function add( $context, $data )
 	{
-		return 'submitted_data_content';
-	}
-
-	public function itemKeyName(){ return 'ik'; }
-
-	public function add( $data )
-	{
-		$entity = $this->make
-		([
-			'ik'	=> $data['ik'],
-			'content' => $data['content'],
-		]);
-
-		$entity->commit();
-
-		return $entity;
+		return $this->createAndCommit( 'write', $data );
 	}
 
 }

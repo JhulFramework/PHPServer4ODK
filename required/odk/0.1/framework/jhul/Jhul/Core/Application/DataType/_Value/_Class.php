@@ -2,7 +2,29 @@
 
 abstract class _Class implements _Interface
 {
-	use \Jhul\Core\Containers\_Error;
+
+	protected $_errors = [];
+
+	public function addError( $value )
+	{
+		if( is_array($value) )
+		{
+			foreach ( $value as $k => $v )
+			{
+				$this->addError( $k, $v );
+			}
+
+			return;
+		}
+
+		$this->_errors[] = $value;
+	}
+
+	public function error(){ if( isset($this->_errors[0]) ) return $this->_errors[0]; }
+
+	public function hasError(){ return !empty($this->_errors); }
+
+	public function errors(){ return $this->_errors ; }
 
 	//original value
 	protected $_input;
@@ -14,7 +36,7 @@ abstract class _Class implements _Interface
 		return $this->_input;
 	}
 
-	public function __construct( $inputValue, $type )
+	public function __construct( $inputValue, &$type )
 	{
 		$this->_input = $inputValue;
 
@@ -32,6 +54,4 @@ abstract class _Class implements _Interface
 	{
 		return !$this->hasError();
 	}
-
-	
 }

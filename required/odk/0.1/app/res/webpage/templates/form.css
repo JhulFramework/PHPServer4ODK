@@ -1,0 +1,19 @@
+#form .uk-input
+{
+	border: none;
+	background: #121212;
+	color: #aaa;
+	border-bottom: 1px dashed #888
+}
+
+#form label
+{
+	color: #888;
+
+}
+
+#form
+{
+	max-width: 320px;
+}
+ 

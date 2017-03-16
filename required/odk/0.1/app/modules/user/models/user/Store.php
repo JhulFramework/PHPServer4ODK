@@ -3,18 +3,20 @@
 class Store extends \Jhul\Components\Database\Store\_Class
 {
 
-	public function dataClasses()
+	public function items()
 	{
-		return [ 's' => __NAMESPACE__.'\\M', ];
+		return
+		[
+			'write' =>
+			[
+				'class' => __NAMESPACE__.'\\M',
+				'select' => '*',
+			],
+		];
 	}
 
-	public function itemKeyName() { return 'ik' ; }
-
-
-	public function name() { return 'users'; }
-
-	public function byIName( $iname )
+	public function useNullDataModel()
 	{
-		return $this->where( 'iname', $iname );
+		return TRUE;
 	}
 }

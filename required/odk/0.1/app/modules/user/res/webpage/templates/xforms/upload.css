@@ -28,12 +28,12 @@ input
 	padding: 12px 0;
 }
 
-form .field
+.upload .field
 {
 	padding: 12px 0;
 }
 
-button
+.upload button
 {
 	display: block;
 	border: none;

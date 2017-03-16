@@ -15,60 +15,60 @@ trait Where
 
 	final function where( $field, $value, $relation = '=' )
 	{
-		$this->_p['where']['AND'][] = '( `'.$field.'` '.$relation.' :'.$field.' )';
+		$this->_p['where'][] = '( `'.$field.'` '.$relation.' :'.$field.' )';
 
 		return $this->bindValue( $field, $value );
 	}
 
-	function makeAnd()
+	public function whereIn( $column, $_values )
 	{
-		$and = '';
+		$values = '';
 
-		if( TRUE == $this->_made ) $and .= ' AND';
-
-		if( !empty( $this->_p['where']['AND']  ) )
+		foreach ( $_values as $v )
 		{
-			$this->_made = TRUE;
-			$and .= implode( ' AND ', $this->_p['where']['AND']  );
+			$values .= ' \''.$v.'\',';
 		}
 
-		return $and;
+		$this->_p['where_in'] = '`'.$column.'` IN ('. trim($values,',').' )' ;
+
+		return $this;
 	}
 
-	function makeIn()
+	// function makeAnd()
+	// {
+	// 	$and = '';
+	//
+	//
+	// 	if( !empty( $this->_p['where']['AND']  ) )
+	// 	{
+	// 		if( TRUE == $this->_made ) $and .= ' AND';
+	//
+	// 		$this->_made = TRUE;
+	// 		$and .= implode( ' AND ', $this->_p['where']['AND']  );
+	// 	}
+	//
+	// 	return $and;
+	// }
+
+	public function makeIn()
 	{
-		if( isset( $this->_p['where']['IN'] ) )
+		if( isset( $this->_p['where_in'] ) )
 		{
-			$this->_made = TRUE ;
-			return $this->_p['where']['IN'];
+			return ' '.$this->_p['where_in'];
 		}
 	}
 
 	final function makeWhere()
 	{
-		if( !empty( $this->_p['where'] ) )
+		if( isset( $this->_p['where'] ) )
 		{
-			return ' WHERE '.$this->makeIn().$this->makeAnd();
+			return ' WHERE'.$this->makeIn().' '.implode( ' AND ', $this->_p['where'] );
+		}
+
+		if( isset( $this->_p['where_in'] ) )
+		{
+			return ' WHERE'.$this->makeIn();
 		}
 	}
 
-	function in( $name, $keys )
-	{
-
-		$in = '';
-
-		foreach ( $keys as $key )
-		{
-		 	$in .= '\''.$key.'\',';
-		}
-
-		if( !empty( $in ) )
-		{
-			$in = trim( $in , ',' );
-
-			$this->_p['where']['IN'] = $this->tick($name).' IN  ('.$in.')';
-		}
-
-		return $this;
-	}
 }

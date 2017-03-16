@@ -1,13 +1,17 @@
 <?php namespace _modules\user\nodes\password;
 
-class Handler extends \Jhul\Core\Application\Node\Handler\_Class
+class Handler extends \Jhul\Core\Application\Handler\_Class
 {
-	public function run()
+	public function handle()
 	{
-		if( $this->isEnd() )
+		$form = new Form;
+
+		if( $form->collect() && $form->save()  )
 		{
-			$form = new Form;
-			$this->getApp()->outputAdapter()->cook( 'change_password', [ 'form' =>  $form ] );
+			$this->getApp()->setFlash( 'Password changed successfully' );
+			$this->getApp()->redirect( $this->getApp()->url()  );
 		}
+
+		$this->getApp()->response()->page()->cook( 'password', [ 'form' =>  $form ] );
 	}
 }

@@ -25,6 +25,8 @@ trait Entity
 		{
 			$class = $this->EAVMap()[$name];
 
+			if( !class_exists($class) ){ throw new \Exception( 'Class "'.$class.'" does not exists' , 1); }
+
 			return $this->_instantiated_EAV[$name] =  new $class( $name, $this );
 		}
 

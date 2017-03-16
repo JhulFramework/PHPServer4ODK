@@ -1,7 +1,6 @@
 <?php return
 [
-      'definition'	=> 'L=6-30',
-	'required'		=> TRUE,
+      'definition' => 'L=6-30:P=R',
 
-	'validation_steps'	=> 'minLength:maxLength:type',
+	'hash_password' => TRUE,
 ];

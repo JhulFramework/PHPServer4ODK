@@ -11,62 +11,31 @@
 
 trait _WriteAccessKey
 {
-	protected $_editor;
-
-	public function isPersistent()
-	{
-		return !empty( $this->persistentData()['ik'] );
-	}
-
-	public function _populate( array $data, $executedSQL ){ return parent::_populate( $data, $executedSQL ); }
-
-	public function editor()
-	{
-		if( empty( $this->_editor ) )
-		{
-			$class = $this->editorClass();
-
-			$this->_editor = new $class( $this );
-		}
-
-		return $this->_editor;
-	}
-
-	//Overrid to user custom editor
-	public function editorClass()
-	{
-		return __NAMESPACE__.'\\Editor';
-	}
+	public function isPersistent(){ return $this->_pData()->hasValue( $this->keyName() ); }
 
 	public function commit()
 	{
-		if( !empty( $this->_editor ) )
+		$this->store()->commit($this) ;
+	}
+
+	public function delete(){ return $this->store()->delete( $this ); }
+
+	public function has( $key )
+	{
+		if( $this->isModified()  )
 		{
-			return $this->editor()->commit();
+			if( $this->_mData()->has( $key ) ) return TRUE;
 		}
-	}
 
-	public function accessMode()
-	{
-		return 's';
-	}
-
-	final public function delete()
-	{
-		return $this->editor()->delete();
-	}
-
-	public function hasInflators()
-	{
-		return FALSE;
+		return parent::has($key);
 	}
 
 	//Value changed but no committed
 	public function isModified()
 	{
-		if( !empty($this->_editor) )
+		if( isset( $this->_dataBags['modified'] ) )
 		{
-			return $this->editor()->ifDataModified();
+			return !$this->_mData()->isEmpty() ;
 		}
 
 		return FALSE;
@@ -75,38 +44,56 @@ trait _WriteAccessKey
 	//value changed and committed
 	public function isChanged()
 	{
-		if( !empty($this->_editor) )
+		if( isset( $this->_dataBags['old'] ) )
 		{
-			return $this->editor()->ifDataModified();
+			return !$this->_oData()->isEmpty() ;
 		}
 
 		return FALSE;
 	}
 
-	public function read( $field, $byPass = FALSE )
+	//modified Data
+	public function _mData(){ return $this->getDataBag('modified'); }
+
+	//old Data
+	public function _oData(){ return $this->getDataBag('old'); }
+
+	public function _read( $field, $silent = FALSE )
 	{
-		if( $this->isPersistent() )
+		if( $this->_mData()->has($field)  )
 		{
-			return parent::read( $field, $byPass );
+			return $this->_mData()->read( $field , $silent );
 		}
 
-		//new values are always empty
-		return NULL;
+		if( $this->isPersistent() )
+		{
+			return parent::_read( $field, $silent );
+		}
 	}
 
-	public function _updatePersistentData( $key, $value )
+	public function _write( $key, $value )
 	{
-		$this->_persistent_data[$key] = $value;
-	}
+		$this->_mData()->write( $key, $value );
 
-	public function write( $key, $value, $byPass = FALSE )
-	{
-		$this->editor()->write( $key, $value, $byPass );
+		//after write new value we need to reset prepared data from old values
+		if( isset( $this->_prepared[$key] ) ) { unset( $this->_prepared[$key] ); }
+
 		return $this;
 	}
 
-	public function modifiedData()
+	public function write( $key, $value )
 	{
-		return $this->editor()->modifiedData();
+		if( isset( $this->writeHandlers()[$key] ) )
+		{
+			$writeHandler = $this->writeHandlers()[$key] ;
+
+			return $this->_write( $key, $this->$writeHandler( $value, $key ) ) ;
+		}
+
+		return $this->_write( $key, $this->store()->deflateValue( $value, $key ) );
 	}
+
+	public function writeHandlers(){ return []; }
+
+
 }

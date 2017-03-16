@@ -1,38 +1,50 @@
+(function ($) {
 
+    var bar = $("#progressbar")[0];
 
- $(function()
- {
+    UIkit.upload('.test-upload', {
 
-        var progressbar = $("#progressbar"),
-            bar         = progressbar.find('.uk-progress-bar'),
-            settings    = {
+	  url: '',
+	  multiple: true,
 
-            action: '/', // upload url
+	  beforeSend: function() { console.log('beforeSend', arguments); },
+	  beforeAll: function() { console.log('beforeAll', arguments); },
+	  load: function() { console.log('load', arguments); },
+	  error: function() { console.log('error', arguments); },
+	  complete: function() { console.log('complete', arguments); },
 
-            allow : '*.(jpg|jpeg|gif|png)', // allow only images
+	  loadStart: function (e) {
+		console.log('loadStart', arguments);
 
-            loadstart: function() {
-                bar.css("width", "0%").text("0%");
-                progressbar.removeClass("uk-hidden");
-            },
+		bar.removeAttribute('hidden');
+		bar.max =  e.total;
+		bar.value =  e.loaded;
+	  },
 
-            progress: function(percent) {
-                percent = Math.ceil(percent);
-                bar.css("width", percent+"%").text(percent+"%");
-            },
+	  progress: function (e) {
+		console.log('progress', arguments);
 
-            allcomplete: function(response) {
+		bar.max =  e.total;
+		bar.value =  e.loaded;
 
-                bar.css("width", "100%").text("100%");
+	  },
 
-                setTimeout(function(){
-                    progressbar.addClass("uk-hidden");
-                }, 250);
+	  loadEnd: function (e) {
+		console.log('loadEnd', arguments);
 
-                alert("Upload Completed")
-            }
-        };
+		bar.max =  e.total;
+		bar.value =  e.loaded;
+	  },
 
-        var select = UIkit.uploadSelect($("#upload-select"), settings),
-            drop   = UIkit.uploadDrop($("#upload-drop"), settings);
-});
+	  completeAll: function () {
+		console.log('completeAll', arguments);
+
+		setTimeout(function () {
+		    bar.setAttribute('hidden', 'hidden');
+		}, 1000);
+
+		alert('Upload Completed');
+	  }
+    });
+
+})(jQuery);

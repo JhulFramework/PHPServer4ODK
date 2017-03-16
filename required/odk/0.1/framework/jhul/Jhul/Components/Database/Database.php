@@ -1,10 +1,10 @@
 <?php namespace Jhul\Components\Database;
 
 /* @Author : Manish Dhruw [saecoder@gmail.com]
-+-----------------------------------------------------------------------------------------------------------------------
++=======================================================================================================================
 | Database Manager
 | @Updated : [ 2016-July-07, 2016-July-08, ]
-+=====================================================================================================================*/
++---------------------------------------------------------------------------------------------------------------------*/
 
 class Database
 {
@@ -13,6 +13,8 @@ class Database
 	const VERSION = '0.8';
 
 	public $charSet = 'utf8';
+
+	protected $_selected_db = 'default';
 
 	public function __construct( $params )
 	{
@@ -34,22 +36,27 @@ class Database
 		return $this->_connections;
 	}
 
-
 	//@Param $name = databse configuartion name, defined in databse configuration file
-	public function get( $name  )
+	public function selectDB( $name )
 	{
-		if( !isset( $this->_connections[$name] ) )
+		$this->_selected_db = $name ;
+		return $this;
+	}
+
+	public function getDB()
+	{
+		if( !isset( $this->_connections[ $this->_selected_db ] ) )
 		{
 			if( !$this->config()->has('connections') ) { throw new \Exception('Database "connections" not configured', 1); }
 
 			$connections = $this->config('connections');
 
-			if( !isset($connections[$name]) ) { throw new \Exception( 'Database "'.$name.'" not defined in configuration file' , 1); }
+			if( !isset($connections[ $this->_selected_db ]) ) { throw new \Exception( 'Database "'.$this->_selected_db.'" not defined in configuration file' , 1); }
 
-			$this->_connections[ $name ] = $this->PDOMaker()->make( $connections[ $name ] );
+			$this->_connections[ $this->_selected_db ] = $this->PDOMaker()->make( $connections[ $this->_selected_db ] );
 		}
 
-		return $this->_connections[ $name ] ;
+		return $this->_connections[ $this->_selected_db ] ;
 	}
 
 	protected $_PDOMaker;
@@ -64,18 +71,49 @@ class Database
 		return $this->_PDOMaker;
 	}
 
+	protected $_stores = [];
 
-
-
-	function fetchLastIdOfTable( $tableName )
+	public function getStore( $storeClass )
 	{
-		return $this->executeStatement
-		(
-			" SELECT `AUTO_INCREMENT`
-			FROM  INFORMATION_SCHEMA.TABLES
-			WHERE TABLE_SCHEMA = '".$this->name()."'
-			AND   TABLE_NAME   = '$tableName' "
-		)
-		->fetch();
+		if(empty($this->_stores[$storeClass]))
+		{
+			//$class = $this->_stores[$storeClass];
+
+			if( !class_exists( $storeClass ) )
+			{
+				throw new \Exception("  Error Processing Request ".$storeClass, 1);
+
+			}
+
+			$this->_stores[$storeClass] = new $storeClass;
+		}
+
+		return $this->_stores[$storeClass];
 	}
+
+
+	public final function fetch( $queryBuilder )
+	{
+		$pdos = $this->getDB()->executeStatement( $queryBuilder );
+
+		$record = $pdos->fetch( \PDO::FETCH_ASSOC );
+
+		$pdos = NULL; //NOT tested if it is required
+
+		return $record;
+	}
+
+	public function fetchAll( $queryBuilder )
+	{
+		$statement = $this->getDB()->executeStatement( $queryBuilder );
+
+		$rows = $statement->fetchAll( \PDO::FETCH_ASSOC );
+
+		$statement = NULL; //NOT tested if it is required
+
+		return $rows;
+	}
+
+
+
 }

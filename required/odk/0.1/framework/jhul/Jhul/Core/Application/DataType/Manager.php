@@ -60,16 +60,16 @@ class Manager
 
 	}
 
-	public function get( $name, $newDefinition = NULL )
+	public function get( $name )
 	{
-		if( isset( $this->_loaded[$name.$newDefinition] ) ) return $this->_loaded[$name.$newDefinition];
+		if( isset( $this->_loaded[$name] ) ) return $this->_loaded[$name];
 
-		return $this->_get( $name, $newDefinition );
+		return $this->_get( $name );
 
 	}
 
 
-	protected function _get( $name, $newDefinition )
+	protected function _get( $name )
 	{
 		if( $this->hasDataType( $name ) )
 		{
@@ -79,18 +79,16 @@ class Manager
 
 			$path = $this->J()->fx()->dirPath( $class );
 
+
 			$config = $this->J()->fx()->loadConfigFile( $path.'/_params', FALSE );
+
 
 			$dataType->config()->add( $config, NULL, TRUE);
 
-			if( !empty($newDefinition) )
-			{
-				$dataType->config()->add( 'definition', $newDefinition, TRUE );
-			}
 
-			$this->_loaded[$name.$newDefinition] = $dataType;
+			$this->_loaded[$name] = $dataType;
 
-			return $this->_loaded[$name.$newDefinition];
+			return $this->_loaded[$name];
 		}
 
 		throw new \Exception( 'Data Type "'.$name.'" Not Found', 1 );

@@ -1,0 +1,50 @@
+html, body
+{
+	background: #121212;
+}
+
+
+body
+{
+	background: #121212;
+	color: #ccc;
+	font-size: 14px;
+}
+
+.uk-button-secondary
+{
+	background: #121212
+}
+
+.footer
+{
+	display: block;
+		padding-top:60px;
+}
+
+.footer items
+{
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+
+.footer a
+{
+
+	text-decoration: none;
+	padding: 6px 12px;
+	display: inline-block;
+}
+
+
+
+.logo
+{
+	padding:6px 0;
+	padding-left: 6px;
+	color:#aaa;
+	font-weight:bold;
+	letter-spacing:1px;
+	font-size: 18px;
+}

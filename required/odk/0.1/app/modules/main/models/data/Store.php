@@ -3,50 +3,31 @@
 class Store extends \Jhul\Components\Database\Store\_Class
 {
 
-	public function dataClasses()
+	public function items()
 	{
 		return
 		[
-			's' => __NAMESPACE__.'\\M',
+			'write' =>
+			[
+				'class' => __NAMESPACE__.'\\M',
+				'select' => '*',
+			],
 		];
 	}
 
-	public function name()
-	{
-		return 'submitted_data';
-	}
 
-	public function itemKeyName(){ return 'ik'; }
 
 	public function add( $form )
 	{
-		$entity = $this->make
-		([
-			'name' => $form->name()
-		]);
-
-		$entity->commit();
+		$entity = $this->createAndCommit ( 'write', [ 'name' => $form->name() ] );
 
 		content\M::I()->store()->add
-		([
-			'ik'		=> $entity->ik(),
+		( 'write', [
+			'data_key'		=> $entity->key(),
 			'content'	=> $form->__toString(),
 		]);
 
 		return $entity;
-	}
-
-	//before aading a new record
-	public function beforeAdd( $entity )
-	{
-		$time  = $this->J()->cx('time')->make( time() );
-
-		$entity->write( 'year', (int) $time->year('Y') );
-		$entity->write( 'month', (int) $time->month('m') );
-		$entity->write( 'month', (int) $time->day('j') );
-		$entity->write( 'submitted_on', (int) $time->value() );
-
-		return;
 	}
 
 	public function inflateCreated( $value )
@@ -54,11 +35,23 @@ class Store extends \Jhul\Components\Database\Store\_Class
 		return strtoupper(date( 'Y-M-d : H-i-s', $value ));
 	}
 
-	public function inflators()
+	public function valueinflaters()
 	{
 		return
 		[
 			'created' => 'inflateCreated',
 		];
+	}
+
+	protected function beforeInsert( $item )
+	{
+		$time  = $this->J()->cx('time')->make( time() );
+
+		$item->write( 'year', (int) $time->year('Y') );
+		$item->write( 'month', (int) $time->month('m') );
+		$item->write( 'day', (int) $time->day('j') );
+		$item->write( 'created', (int) $time->value() );
+
+		return $item ;
 	}
 }

@@ -8,5 +8,10 @@
 
 	'xform_confirm_deletion'	=> __DIR__.'/templates/xforms/confirm_deletion',
 
-	'change_password'			=> __DIR__.'/templates/user/change_password',
+	'password'			=>
+	[
+
+		'f' => __DIR__.'/templates/user/password',
+		's' => 'form',
+	],
 ];

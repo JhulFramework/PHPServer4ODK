@@ -9,7 +9,6 @@ Thursday 13 February 2014 06:09:31 PM IST
 trait Errorable
 {
 
-
 	private $_errors = [] ;
 
 	public function hasError( $attrib = NULL )
@@ -18,7 +17,6 @@ trait Errorable
 
 		return !empty($this->_errors) ;
 	}
-
 
 	public function error( $attribute )
 	{
@@ -35,33 +33,22 @@ trait Errorable
 		return $this->_errors;
 	}
 
-	// add muliple erros for single field
-	public function addErrors( $field, $errors )
-	{
-		foreach( $errors as $error ) $this->addError( $field, $error );
-	}
 
 	// add muliple erros for single field
-	public function addError($attribute, $error)
+	public function addError($attribute, $error )
 	{
+		if( is_array($error) )
+		{
+			foreach ($error as $e)
+			{
+				$this->addError( $attribute, $e );
+			}
+
+			return ;
+		}
+
 		if( !isset($this->_errors[$attribute] ) ) $this->_errors[$attribute] = array();
 
 		$this->_errors[$attribute][] = $error ;
 	}
-
-	public function clearError($attribute = null)
-	{
-		unset($this->_errors[$attribute]);
-	}
-
-	public function clearErrors()
-	{
-		$this->_errors = array();
-	}
-
-	public function setErrors( $errors )
-	{
-		$this->_errors = $errors ;
-	}
-
 }

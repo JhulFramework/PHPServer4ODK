@@ -17,7 +17,7 @@ class Select extends _Abstract
 		{
 			if( $columns == '*' )
 			{
-				$this->_p['selected_columns' ] = '*' ;
+				$this->_p['selected_columns' ] = ' *' ;
 			}
 			elseif( strpos($columns,':') )
 			{
@@ -57,4 +57,5 @@ class Select extends _Abstract
 
 		return $this->_make();
 	}
+
 }

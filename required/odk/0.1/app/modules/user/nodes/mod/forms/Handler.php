@@ -1,46 +1,44 @@
 <?php namespace _modules\user\nodes\mod\forms;
 
-class Handler extends \Jhul\Core\Application\Node\Handler\_Class
+class Handler extends \Jhul\Core\Application\Handler\_Class
 {
-	protected function nextNodeNameType()
+	public function canHandleNextNode()
 	{
-		return 'alnum' ;
+		return TRUE;
 	}
 
-	public function run()
+	public function handle()
 	{
-		$this->J()->cx('uiloader')->MBreadCrumb()->add( 'FORMS', $this->getApp()->url().'/manage_forms' );
+		if( $this->getApp()->user()->isAnon() ) return ;
 
-		if( !$this->getApp()->endUser()->isLoggedIn() ) return ;
 
-		if( $this->isEnd() && $this->getApp()->endUser()->m()->canManageForms() )
+		if( !$this->mPath()->hasNext() && $this->getApp()->user()->canManageForms() )
 		{
-			$xForms = \_modules\user\models\xform\M::I()->store()->fetchAll();
+			$xForms = \_modules\user\models\xform\M::D()->fetchAll();
 
-			return $this->getApp()->outputAdapter()->cook( 'xform_list', [ 'xForms'=> $xForms ] );
+			return $this->getApp()->response()->page()->cook( 'xform_list', [ 'xForms'=> $xForms ] );
 		}
 
-		$this->moveToNext();
 
-		if( $this->current() == 'upload' )
+
+		if( $this->mPath()->next() == 'upload' )
 		{
-			$this->J()->cx('uiloader')->MBreadCrumb()->add( 'UPLOAD', $this->getApp()->url().'/manage_forms/upload' );
-			$this->runLocalActivity( 'upload\\Activity' );
+			$this->renderPage( __NAMESPACE__.'\\upload\\Page' );
 		}
 
-		$xform_ik = $this->current();
+		$xform_key = $this->mPath()->next();
 
 
 
-		if( ctype_digit($xform_ik) )
+		if( ctype_digit($xform_key) )
 		{
-			$xform = \_modules\user\models\xform\M::I()->store()->byIk($xform_ik)->fetch() ;
+			$xform = \_modules\user\models\xform\M::D()->byKey($xform_key)->fetch() ;
 		}
 
 
 		if( !empty($xform) )
 		{
-			if( $this->next() == 'delete' )
+			if( isset($_GET['a']) && $_GET['a'] == 'delete' )
 			{
 				if( isset($_POST['action']) )
 				{
@@ -49,7 +47,7 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 					$this->getApp()->redirect( $this->getApp()->url().'/manage_forms' );
 				}
 
-				return $this->getApp()->outputAdapter()->cook('xform_confirm_deletion', [ 'xform' => $xform ] );
+				return $this->getApp()->response()->page()->cook('xform_confirm_deletion', [ 'xform' => $xform ] );
 			}
 		}
 

@@ -1,9 +1,9 @@
 <?php namespace _modules\main\nodes\index;
 
-class Handler extends \Jhul\Core\Application\Node\Handler\_Class
+class Handler extends \Jhul\Core\Application\Handler\_Class
 {
-	public function run()
+	public function switchTo()
 	{
-		$this->forwardTo( 'main.data' );
+		return 'main#data' ;
 	}
 }

@@ -4,6 +4,16 @@
 class Value extends \Jhul\Core\Design\Data\_Value\_Class implements _Interface
 {
 
+	public function __construct( $file, &$dataType )
+	{
+		if( 0 != $file['error'] )
+		{
+			$this->addError( 'Error While Uploading Image' );
+		}
+
+		$this->_dataType = $dataType;
+	}
+
 	protected $_p = [];
 
 	public function height()

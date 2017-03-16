@@ -1,11 +1,11 @@
 <?php namespace _modules\user\nodes\logout;
 
-class Handler extends \Jhul\Core\Application\Node\Handler\_Class
+class Handler extends \Jhul\Core\Application\Handler\_Class
 {
-	public function run()
+	public function handle()
 	{
 
-		$this->getApp()->endUser()->logout();
+		$this->getApp()->user()->logout();
 		$this->getApp()->redirect( $this->getApp()->url()  );
 	}
 }

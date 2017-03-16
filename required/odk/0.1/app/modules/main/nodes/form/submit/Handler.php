@@ -1,10 +1,9 @@
 <?php namespace _modules\main\nodes\form\submit;
 
-class Handler extends \Jhul\Core\Application\Node\Handler\_Class
+class Handler extends \Jhul\Core\Application\Handler\_Class
 {
-	public function run()
+	public function handle()
 	{
-
 		if( !empty($_FILES)  )
 		{
 			if( is_file($_FILES['xml_submission_file']['tmp_name']) )
@@ -16,7 +15,7 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 
 				\_modules\main\models\data\M::I()->store()->add( $form );
 
-				$this->J()->cx('http')->R()->setStatusCode(201);
+				$this->R()->setStatusCode(201);
 			}
 		}
 		else
@@ -26,7 +25,7 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 			{
 				// $this->J()->cx('papertrail')->log( 'FORM SUBMISSION: AUTHORIZED' );
 				// $this->J()->cx('papertrail')->log( 'FORM SUBMISSION:SETTING RESPONSE CODE to 204 ' );
-				$this->J()->cx('http')->R()->setStatusCode(204);
+				$this->getApp()->response()->setStatusCode(204);
 				return;
 			}
 			else //if not authorized
@@ -39,12 +38,10 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 
 				$realm = 'Authorized users of example.com';
 
-
-				$this->J()->cx('http')->R()->setStatusCode(401);
-
-				$this->J()->cx('http')->R()->headers->set( 'Content-Type', 'text/html') ;
-
-				$this->J()->cx('http')->R()->headers->set( 'WWW-Authenticate',  sprintf('Digest realm="%s", nonce="%s", opaque="%s"', $realm, $nonce, $opaque) ) ;
+				$this->R()
+				->setStatusCode(401)
+				->addHeader('Content-Type', 'text/html')
+				->addheader('WWW-Authenticate',  sprintf('Digest realm="%s", nonce="%s", opaque="%s"', $realm, $nonce, $opaque)  );
 			}
 
 		}
@@ -65,5 +62,10 @@ class Handler extends \Jhul\Core\Application\Node\Handler\_Class
 		}
 
 		return FALSE;
+	}
+
+	public function r()
+	{
+		return $this->getApp()->response();
 	}
 }

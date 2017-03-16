@@ -7,14 +7,30 @@ class ConfigLoader
 
 	public function load( &$obj )
 	{
-		$this->J()->cx('classmapper')->register
-		(
-			$this->loadConfigFile( $obj->path().'/config/_class_map', FALSE )
-		);
-
 	 	$this->_configure( $obj );
 
 		$this->mapResources( $obj->path() );
+	}
+
+	public function registerPages( $path, $namespace = NULL )
+	{
+		$this->getApp()->mPage()->register
+		(
+			$this->loadConfigFile( $path.'/config/_pages', FALSE ),
+
+			$namespace
+		);
+	}
+
+	public function registerHandlers( $path, $namespace = NULL )
+	{
+
+		$this->getApp()->mHandler()->register
+		(
+			$this->loadConfigFile( $path.'/config/_handlers', FALSE ),
+
+			$namespace
+		);
 	}
 
 	protected function _configure( &$obj )
@@ -26,17 +42,11 @@ class ConfigLoader
 			$this->loadConfigFile( $obj->path().'/config/_main', FALSE )
 		);
 
-		$this->getApp()->mActivity()->register
-		(
-			$obj->name(),
-			$this->loadConfigFile( $obj->path().'/config/_activities', FALSE )
-		);
-
-		$this->getApp()->mHandler()->register
-		(
-			$obj->name(),
-			$this->loadConfigFile( $obj->path().'/config/_handlers', FALSE )
-		);
+		// $this->getApp()->mHandler()->register
+		// (
+		// 	$obj->name(),
+		// 	$this->loadConfigFile( $obj->path().'/config/_handlers', FALSE )
+		// );
 
 		$this->getApp()->mDataType()->register
 		(
@@ -52,21 +62,19 @@ class ConfigLoader
 		$res = $this->loadConfigFile( $path.'/res/_res' );
 
 
-		if( $this->getApp()->endUser()->ifConsumes( 'webpage' )  )
+		if( $this->getApp()->user()->isWebPageConsumer()  )
 		{
-
 			if( isset( $res['templates'] ) )
 			{
-				$this->getApp()->outputAdapter()->mTemplate()->register
+				$this->getApp()->response()->page()->mTemplate()->register
 				(
 					$this->loadConfigFile( $res['templates'] ), NULL, $res['templates']
 				);
 			}
 
-
 			if( isset($res['styles']) )
 			{
-				$this->getApp()->outputAdapter()->mStyle()->register
+				$this->getApp()->response()->page()->mStyle()->register
 				(
 					$this->loadConfigFile( $res['styles'] ), NULL, $res['styles']
 				);
@@ -83,6 +91,5 @@ class ConfigLoader
 	{
 		return $this->J()->fx()->loadConfigFile( $file, $required );
 	}
-
 
 }

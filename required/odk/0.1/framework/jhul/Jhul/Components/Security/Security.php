@@ -124,6 +124,13 @@ class Security
 
 	public function hashSA( $raw )
 	{
+		if( strlen($raw) == 96 )
+		{
+			throw new \Exception( 'Possible double hashing password "'.$raw.'" ' , 1);
+		}
+
+		$raw = (string) $raw;
+
 		$salt = $this->randomKey(6,3);
 
 		return base64_encode( $salt.$this->hashmac( $raw , $salt ) );
@@ -131,6 +138,8 @@ class Security
 
 	public function hashSAMatch( $raw, $hashed )
 	{
+		$raw = (string) $raw ;
+
 		$hashed = base64_decode( $hashed );
 
 		$salt = mb_substr( $hashed , 0, 6 );

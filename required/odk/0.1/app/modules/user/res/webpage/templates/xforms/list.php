@@ -1,6 +1,3 @@
-<?= $this->J()->cx('uiloader')->mbreadcrumb(); ?>
-
-<?php $this->embedCss('list') ; ?>
 
 <div class="list_head B"> <span class="IB title"> Form List</span>
 <a href="<?= $this->getApp()->url() ?>/manage_forms/upload" class="IB FR button" ><i class=" uk-icon-medium uk-icon-cloud-upload" > </i> UPLOAD </a> </div>
