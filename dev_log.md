@@ -1,3 +1,9 @@
+
+### 2017-March
+ - added password change form for Admin
+ - fixed login
+ - Some UI tweaks
+
 ### 2016-Nov-26
 
 - added MIT license
