@@ -1,6 +1,6 @@
 ## PHP ODK Aggregate Server
 - Currently only single user supported
-- test server http://www.emfiraipur.com/odk/ //this server will expire on 09-05-2017
+- Currently it does not supports forms with file(s) (e.g. images)
 
 ### Requirement
 
@@ -25,4 +25,4 @@ Change them as your application requirement
 	- user: odkadmin
 	- pass: odkadmin
 
-- Use empty/any credentials on odk collect
+- Use any credentials on odk collect
