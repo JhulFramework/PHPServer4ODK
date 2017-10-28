@@ -26,7 +26,7 @@
 <?php foreach ( $data as $row  ): ?>
 	<tr class="data" >
 
-	<td><span><?= $row->read('ik') ;		?></span></td>
+	<td><span><?= $row->read('identity_key') ;		?></span></td>
 	<td><span><?= $row->read('name');		?></span></td>
 	<td><span><?= $row->read('year');		?></span></td>
 	<td><span><?= $row->read('month');		?></span></td>

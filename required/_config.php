@@ -12,7 +12,7 @@
 
 	//Database configuration
 	'database' =>
-	[		
+	[
 		//database name
 		'name' 	=> '',
 

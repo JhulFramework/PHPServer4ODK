@@ -41,7 +41,7 @@ class M extends \Jhul\Components\Database\Store\Data\_Class
 
 	public function getContent()
 	{
-		return file_get_contents( $this->getApp()->url().'/'.$this->rurl() );
+		return file_get_contents( $this->getApp()->publicRoot().'/'.$this->rurl() );
 	}
 
 	//XForm Version
