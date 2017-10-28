@@ -19,7 +19,7 @@ Component configuartion is located in directories
 
 Change them as your application requirement
 
-###Usage
+### Usage
 
 - Admin Login
 	- user: odkadmin

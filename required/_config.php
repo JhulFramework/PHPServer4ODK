@@ -1,12 +1,15 @@
 <?php return
 [
-	//SERVER URL
+	// SERVER URL with http
+	// example : http://myserver.com or https://myserver.com
 	'url'			=> '',
 
-	// Relative directory where forms will be uplaoded by admin
+	// Relative to public_html directory( or www or htdocs ) where xml forms will be uploadded by admin
+	// example : public_html/upload/xforms
+	// this ditrectory MUST EXIST
 	'xform_dir'		=> 'uploads/xforms',
 
-	//WEBSITE NAME
+	//Name it whatever you want
 	'name'		=> 'ODK Server',
 
 
@@ -23,7 +26,7 @@
 		'password'	=> '',
 
 
-
+		// DONT CHANGE below configurations
 		'adapter'	=> 'mysql',
 
 		'host'	=> 'localhost',
