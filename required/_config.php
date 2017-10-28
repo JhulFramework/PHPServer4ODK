@@ -25,11 +25,10 @@
 		//database password
 		'password'	=> '',
 
+		'host'	=> 'localhost',
 
 		// DONT CHANGE below configurations
 		'adapter'	=> 'mysql',
-
-		'host'	=> 'localhost',
 
 		'pdoConf' 	=>
 		[
