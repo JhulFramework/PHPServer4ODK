@@ -1,6 +1,11 @@
+
+It was my hobby project so i may not be able to give it much time.
+**Forms are not validated so using it on serious project is not recomended**
+
+
 ## PHP ODK Aggregate Server
-- Currently only single user supported
-- Currently it does not supports forms with file(s) (e.g. images)
+- Only single user supported
+- It does not supports forms with file(s) (e.g. images)
 
 ### Requirement
 
