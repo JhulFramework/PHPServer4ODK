@@ -1,4 +1,6 @@
 
+## WARNING : THIS PROJECT IS ABANDONED
+
 ## PHP ODK Aggregate Server
 - Only single user supported
 - It does not supports forms with file(s) (e.g. images)
